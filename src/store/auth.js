@@ -1,50 +1,81 @@
-import { createSlice } from "@reduxjs/toolkit"
-import { apiCallBegan } from "./api"
+import { createSlice } from "@reduxjs/toolkit";
+import { apiCallBegan } from "./api";
 
 const endpoints = {
-    login: '/auth/login',
-    register: '/auth/register',
-    verifyRegister: '/auth/verify-register'
+    auth: {
+        login: '/auth/login',
+        register: '/auth/register',
+        verifyRegister: '/auth/verify-register',
+        logout: '/auth/logout'
+    },
+    users: '/users'
 }
 
 const auth = createSlice({
     name: 'auth',
     initialState: {
         data: {},
-        loading: false
+        loading: true
     },
     reducers: {
+        initialized: (state, action) => {
+            state.data = action.payload
+            state.loading = false
+        },
+
         requested: (state) => {
             state.loading = true
         },
         received: (state, action) => {
-            state.data = action.payload
+            state.data = action.payload.data
             state.loading = false
-        },
-        sentRegisterData: (state, action) => {
-            state.data = { ...action.payload, verified: false }
-            state.loading = false
-        },
-        verified: (state) => {
-            state.data.verified = true
         },
         requestFailed: (state) => {
             state.loading = false
         },
-        removed: (state) => {
-            state = this.initialState
+
+        sentRegisterData: (state, action) => {
+            state.data = { ...action.payload.data, verified: false }
+            state.loading = false
+        },
+        verified: (state, action) => {
+            state.data = action.payload.data
+            state.loading = false
+        },
+
+        cleared: (state) => {
+            state.data = {}
+            state.loading = false
         }
     }
 })
 
 export default auth.reducer
 
-const { requested, requestFailed, received, sentRegisterData, verified } = auth.actions
+
+// Actions
+
+const {
+    initialized,
+
+    requested,
+    requestFailed,
+    received,
+
+    sentRegisterData,
+    verified,
+    cleared
+} = auth.actions
+
 
 // Action Creators
+
+export const initialize = (data) =>
+    initialized(data)
+
 export const login = (body) =>
     apiCallBegan({
-        url: endpoints.login,
+        url: endpoints.auth.login,
         method: 'post',
         body,
         onStart: requested.type,
@@ -54,7 +85,7 @@ export const login = (body) =>
 
 export const register = (body) =>
     apiCallBegan({
-        url: endpoints.register,
+        url: endpoints.auth.register,
         method: 'post',
         body,
         onStart: requested.type,
@@ -64,10 +95,18 @@ export const register = (body) =>
 
 export const verifyRegister = (body) =>
     apiCallBegan({
-        url: endpoints.verifyRegister,
+        url: endpoints.auth.verifyRegister,
         method: 'post',
         body,
         onStart: requested.type,
         onSuccess: verified.type,
         onError: requestFailed.type
+    })
+
+export const logout = () =>
+    apiCallBegan({
+        url: endpoints.auth.logout,
+        onStart: requested.type,
+        onSuccess: cleared.type,
+        onError: cleared.type
     })
