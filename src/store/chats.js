@@ -1,10 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { apiCallBegan } from "./api";
+import { ENDPOINTS } from "../constants";
 
-const endpoints = {
-    messages: '/chats/messages',
-    chats: '/chats'
-}
+const url = ENDPOINTS.chats
 
 const chats = createSlice({
     name: 'chats',
@@ -86,7 +84,7 @@ export const openChat = (chat) =>
 
 export const getChat = (chat) =>
     apiCallBegan({
-        url: `${endpoints.chats}/${chat}`,
+        url: `${url}/${chat}`,
         onStart: openRequested.type,
         onSuccess: openAddedFromRequest.type,
         onError: openFailed.type,
@@ -95,7 +93,7 @@ export const getChat = (chat) =>
 
 export const getChats = () =>
     apiCallBegan({
-        url: endpoints.chats,
+        url,
         onStart: availableRequested.type,
         onSuccess: availableReceived.type,
         onError: availableFailed.type

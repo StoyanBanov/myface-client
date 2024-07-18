@@ -1,15 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { apiCallBegan } from "./api";
+import { ENDPOINTS } from "../constants";
 
-const endpoints = {
-    auth: {
-        login: '/auth/login',
-        register: '/auth/register',
-        verifyRegister: '/auth/verify-register',
-        logout: '/auth/logout'
-    },
-    users: '/users'
-}
+const endpoints = ENDPOINTS.auth
 
 const auth = createSlice({
     name: 'auth',
@@ -75,7 +68,7 @@ export const initialize = (data) =>
 
 export const login = (body) =>
     apiCallBegan({
-        url: endpoints.auth.login,
+        url: endpoints.login,
         method: 'post',
         body,
         onStart: requested.type,
@@ -85,7 +78,7 @@ export const login = (body) =>
 
 export const register = (body) =>
     apiCallBegan({
-        url: endpoints.auth.register,
+        url: endpoints.register,
         method: 'post',
         body,
         onStart: requested.type,
@@ -95,7 +88,7 @@ export const register = (body) =>
 
 export const verifyRegister = (body) =>
     apiCallBegan({
-        url: endpoints.auth.verifyRegister,
+        url: endpoints.verifyRegister,
         method: 'post',
         body,
         onStart: requested.type,
@@ -105,7 +98,7 @@ export const verifyRegister = (body) =>
 
 export const logout = () =>
     apiCallBegan({
-        url: endpoints.auth.logout,
+        url: endpoints.logout,
         onStart: requested.type,
         onSuccess: cleared.type,
         onError: cleared.type

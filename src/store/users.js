@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { apiCallBegan } from "./api";
+import { ENDPOINTS } from "../constants";
 
-const url = '/users'
+const url = ENDPOINTS.users
 
 const users = createSlice({
     name: 'users',

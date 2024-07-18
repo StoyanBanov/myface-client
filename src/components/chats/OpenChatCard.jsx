@@ -3,11 +3,9 @@ import { removeChat } from "../../store/chats"
 import { useEffect, useState } from "react"
 
 import OpenMessages from "./OpenMessages"
-import { addMessage, getMessages } from "../../store/messages"
+import { addMessage, getMessages, removeMessages } from "../../store/messages"
 
 const OpenChatCard = ({ chat, loading }) => {
-    const [skip, setSkip] = useState(10)
-
     const initialValues = {
         text: ''
     }
@@ -36,10 +34,7 @@ const OpenChatCard = ({ chat, loading }) => {
 
     const onCloseChat = () => {
         dispatch(removeChat(chat._id))
-    }
-
-    const upSkip = () => {
-        setSkip(state => state + 10)
+        dispatch(removeMessages(chat._id))
     }
 
     return (
@@ -53,7 +48,7 @@ const OpenChatCard = ({ chat, loading }) => {
 
             <h3>{chat.title}</h3>
 
-            <OpenMessages chatId={chat._id} skip={skip} upSkip={upSkip} />
+            <OpenMessages chatId={chat._id} />
 
             <form onSubmit={onMessageSubmit}>
                 <input name="text" placeholder="text..." value={values.text} onChange={onValueChange} />

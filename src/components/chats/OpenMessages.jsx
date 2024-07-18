@@ -3,17 +3,18 @@ import { useDispatch, useSelector } from "react-redux"
 import { getMessages } from "../../store/messages"
 
 import style from './style.module.css'
+import { MAX_MESSAGES_SKIP } from "../../constants"
 
-const OpenMessages = ({ chatId, skip, upSkip }) => {
+const OpenMessages = ({ chatId }) => {
 
     const dispatch = useDispatch()
 
-    const { messages, loading } = useSelector(state => state.entities.messages[chatId]) || { loading: true }
+    const { messages, loading, skip } = useSelector(state => state.entities.messages[chatId]) || { loading: true, skip: 0 }
 
     const messagesRef = useRef()
 
     useEffect(() => {
-        if (!loading && skip == 10) {
+        if (!loading && skip <= MAX_MESSAGES_SKIP) {
             messagesRef.current.scrollTop = messagesRef.current.scrollHeight
         }
     }, [loading, skip])
@@ -21,9 +22,8 @@ const OpenMessages = ({ chatId, skip, upSkip }) => {
     const onChatScroll = useCallback(() => {
         if (messagesRef.current.scrollTop == 0) {
             dispatch(getMessages(chatId, { skip }))
-            upSkip(state => state + 10)
         }
-    }, [chatId, dispatch, skip, upSkip])
+    }, [chatId, dispatch, skip])
 
     return (
         <ul ref={messagesRef} className={style.messagesUl} onScroll={onChatScroll}>
