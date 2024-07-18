@@ -1,0 +1,20 @@
+import { useDispatch } from "react-redux"
+import { openChat } from "../../store/chats"
+
+const AvailableChatCard = ({ chat, closeChats }) => {
+    const dispatch = useDispatch()
+
+    const onOpenChatClick = () => {
+        dispatch(openChat(chat._id))
+
+        closeChats()
+    }
+
+    return (
+        <div onClick={onOpenChatClick}>
+            <h3>{chat.title}</h3>
+        </div>
+    )
+}
+
+export default AvailableChatCard
