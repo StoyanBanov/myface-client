@@ -20,69 +20,85 @@ import NotFound from './components/notFound/NotFound';
 
 import './App.css'
 import { appendMessage } from './store/messages';
+import Home from './components/home/Home';
+import CreatePost from './components/posts/CreatePost';
+import CreateChat from './components/chats/CreateChat';
+import PostDetails from './components/posts/PostDetails';
 
 function App() {
-  const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
-  const { data } = useStatus()
+    const { data } = useStatus()
 
-  const isAuthLoading = useSelector(state => state.auth.loading)
+    const isAuthLoading = useSelector(state => state.auth.loading)
 
-  useEffect(() => {
-    dispatch(initialize(getAuthData()))
-  }, [dispatch])
+    useEffect(() => {
+        dispatch(initialize(getAuthData()))
+    }, [dispatch])
 
-  useEffect(() => {
-    if (data._id && !isAuthLoading) {
-      dispatch(initializeCurrent(data._id))
+    useEffect(() => {
+        if (data._id && !isAuthLoading) {
+            dispatch(initializeCurrent(data._id))
 
-      socket.connect()
+            socket.connect()
 
-      socket.emit('online', data._id)
-    }
+            socket.emit('online', data._id)
+        }
 
-    return () => {
-      socket.emit('offline')
-      socket.off('message')
-      socket.disconnect()
-    }
-  }, [dispatch, data, isAuthLoading])
+        return () => {
+            socket.emit('offline')
+            socket.off('message')
+            socket.disconnect()
+        }
+    }, [dispatch, data, isAuthLoading])
 
-  useEffect(() => {
-    if (data._id && !isAuthLoading) {
-      socket.on('message', (message) => {
-        dispatch(appendMessage(message))
-      });
-    } else {
-      socket.off('message')
-    }
+    useEffect(() => {
+        if (data._id && !isAuthLoading) {
+            socket.on('message', (message) => {
+                dispatch(appendMessage(message))
+            });
+        } else {
+            socket.off('message')
+        }
 
-    return () => {
-      socket.off('message')
-    }
-  }, [dispatch, data, isAuthLoading,])
+        return () => {
+            socket.off('message')
+        }
+    }, [dispatch, data, isAuthLoading,])
 
-  return (
-    <>
-      {!isAuthLoading &&
+    return (
         <>
-          <Header />
+            {!isAuthLoading &&
+                <>
+                    <Header />
 
-          <Routes>
-            <Route path='/' />
-            <Route path='/search' element={<Search />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/logout' element={<Logout />} />
-            <Route path='/verify' element={<Verify />} />
-            <Route path='*' element={<NotFound />} />
-          </Routes>
+                    <Routes>
+                        <Route path='/' element={<Home />} />
 
-          <OpenChats />
+                        <Route path='/search' element={<Search />} />
+
+                        <Route path='/create'>
+                            <Route index={true} element={<CreatePost />} />
+                            <Route path="/post" element={<CreatePost />} />
+
+                            <Route path="/chat" element={<CreateChat />} />
+                        </Route>
+
+                        <Route path='posts/:id' element={<PostDetails />} />
+
+                        <Route path='/register' element={<Register />} />
+                        <Route path='/login' element={<Login />} />
+                        <Route path='/logout' element={<Logout />} />
+                        <Route path='/verify' element={<Verify />} />
+
+                        <Route path='*' element={<NotFound />} />
+                    </Routes>
+
+                    <OpenChats />
+                </>
+            }
         </>
-      }
-    </>
-  )
+    )
 }
 
 export default App
