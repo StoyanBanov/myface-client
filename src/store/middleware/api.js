@@ -1,6 +1,5 @@
 const HOST = import.meta.env.VITE_HOST
 
-console.log(HOST);
 import * as actions from '../api'
 
 export default ({ dispatch, getState }) => next => async (action) => {
