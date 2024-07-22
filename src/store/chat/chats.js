@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { apiCallBegan } from "./api";
-import { ENDPOINTS } from "../constants";
+import { apiCallBegan } from "../api";
+import { ENDPOINTS } from "../../constants";
 
 const url = ENDPOINTS.chats
 

@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux"
-import { openChat } from "../../store/chats"
+import { openChat } from "../../store/chat/chats"
 
 const AvailableChatCard = ({ chat, closeChats }) => {
     const dispatch = useDispatch()

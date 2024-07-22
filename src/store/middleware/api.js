@@ -1,7 +1,7 @@
 import { HOST } from '../../constants'
 import * as actions from '../api'
 
-export default ({ dispatch, getState }) => next => async action => {
+export default ({ dispatch, getState }) => next => async (action) => {
     if (action.type != actions.apiCallBegan.type) return next(action)
 
     const { url, method = 'get', body, onStart, onSuccess, onError, persist } = action.payload
@@ -10,21 +10,10 @@ export default ({ dispatch, getState }) => next => async action => {
 
     next(action)
 
-    const options = {
-        method,
-        headers: {}
-    }
-
-    if (body) {
-        options.headers['Content-Type'] = 'application/json'
-        options.body = JSON.stringify(body)
-    }
-
     const { token } = getState().auth.data
-    if (token) options.headers.authorization = token
 
     try {
-        const request = await fetch(HOST + url, options)
+        const request = await fetch(HOST + url, createOptions(method, body, token))
 
         const data = request.status != 204 && await request.json()
 
@@ -40,4 +29,39 @@ export default ({ dispatch, getState }) => next => async action => {
 
         if (onError) dispatch({ type: onError, payload: { message: error.message, ...persist } })
     }
+}
+
+function createOptions(method, body, token) {
+    const options = {
+        method,
+        headers: {}
+    }
+
+    if (body) {
+        if (Object.values(body).some(v => v instanceof File || (Array.isArray(v) && v[0] instanceof File))) {
+            options.body = toFormData(body)
+        } else {
+            options.headers['Content-Type'] = 'application/json'
+            options.body = JSON.stringify(body)
+        }
+    }
+
+    if (token) options.headers.authorization = token
+
+    return options
+}
+
+function toFormData(body) {
+    const formData = new FormData()
+    for (const [key, val] of Object.entries(body)) {
+        if (Array.isArray(val)) {
+            for (const v of val) {
+                formData.append(key, v)
+            }
+        } else {
+            formData.append(key, val)
+        }
+    }
+
+    return formData
 }

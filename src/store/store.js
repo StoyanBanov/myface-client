@@ -4,5 +4,9 @@ import api from "./middleware/api";
 
 export default configureStore({
     reducer,
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(api)
+    middleware: getDefaultMiddleware => getDefaultMiddleware({
+        serializableCheck: {
+            ignoredActions: ['api/callBegan']
+        }
+    }).concat(api)
 })

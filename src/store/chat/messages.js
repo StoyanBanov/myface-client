@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { apiCallBegan } from "./api";
+import { apiCallBegan } from "../api";
 import { getChat } from "./chats";
-import { ENDPOINTS } from "../constants";
+import { ENDPOINTS } from "../../constants";
 
 const url = ENDPOINTS.messages
 

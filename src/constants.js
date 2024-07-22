@@ -17,3 +17,6 @@ export const ENDPOINTS = {
 }
 
 export const MAX_MESSAGES_SKIP = 10
+
+export const CDN_ADDRESS = 'http://res.cloudinary.com/depbmnbhc/image/upload'
+export const CDN_THUMBNAIL_ADDRESS = CDN_ADDRESS + '/t_Thumbnail'

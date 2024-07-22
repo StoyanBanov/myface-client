@@ -1,13 +1,15 @@
 import { useDispatch } from "react-redux"
-import { removeChat } from "../../store/chats"
 import { useEffect, useState } from "react"
 
 import OpenMessages from "./OpenMessages"
-import { addMessage, getMessages, removeMessages } from "../../store/messages"
+
+import { removeChat } from "../../store/chat/chats"
+import { addMessage, getMessages, removeMessages } from "../../store/chat/messages"
 
 const OpenChatCard = ({ chat, loading }) => {
     const initialValues = {
-        text: ''
+        text: '',
+        images: []
     }
 
     const [values, setValues] = useState({ ...initialValues })
@@ -21,6 +23,10 @@ const OpenChatCard = ({ chat, loading }) => {
 
     const onValueChange = ({ target: { name, value } }) => {
         setValues(state => ({ ...state, [name]: value }))
+    }
+
+    const onFileChange = ({ target: { name, files } }) => {
+        setValues(state => ({ ...state, [name]: [...state[name], ...files] }))
     }
 
     const onMessageSubmit = e => {
@@ -52,6 +58,7 @@ const OpenChatCard = ({ chat, loading }) => {
 
             <form onSubmit={onMessageSubmit}>
                 <input name="text" placeholder="text..." value={values.text} onChange={onValueChange} />
+                <input type="file" name="images" multiple onChange={onFileChange} />
             </form>
         </div>
     )

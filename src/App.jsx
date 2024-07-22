@@ -19,7 +19,7 @@ import Search from './components/search/Search';
 import NotFound from './components/notFound/NotFound';
 
 import './App.css'
-import { appendMessage } from './store/messages';
+import { appendMessage } from './store/chat/messages';
 import Home from './components/home/Home';
 import CreatePost from './components/posts/CreatePost';
 import CreateChat from './components/chats/CreateChat';
@@ -40,7 +40,9 @@ function App() {
         if (data._id && !isAuthLoading) {
             dispatch(initializeCurrent(data._id))
 
-            socket.connect()
+            socket.on('message', (message) => {
+                dispatch(appendMessage(message))
+            });
 
             socket.emit('online', data._id)
         }
@@ -48,23 +50,8 @@ function App() {
         return () => {
             socket.emit('offline')
             socket.off('message')
-            socket.disconnect()
         }
     }, [dispatch, data, isAuthLoading])
-
-    useEffect(() => {
-        if (data._id && !isAuthLoading) {
-            socket.on('message', (message) => {
-                dispatch(appendMessage(message))
-            });
-        } else {
-            socket.off('message')
-        }
-
-        return () => {
-            socket.off('message')
-        }
-    }, [dispatch, data, isAuthLoading,])
 
     return (
         <>
@@ -79,9 +66,9 @@ function App() {
 
                         <Route path='/create'>
                             <Route index={true} element={<CreatePost />} />
-                            <Route path="/post" element={<CreatePost />} />
+                            <Route path="post" element={<CreatePost />} />
 
-                            <Route path="/chat" element={<CreateChat />} />
+                            <Route path="chat" element={<CreateChat />} />
                         </Route>
 
                         <Route path='posts/:id' element={<PostDetails />} />
