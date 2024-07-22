@@ -1,4 +1,4 @@
 import { io } from 'socket.io-client';
-import { HOST } from './constants';
+const HOST = import.meta.env.VITE_HOST
 
 export default io(HOST)

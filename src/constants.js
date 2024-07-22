@@ -1,5 +1,3 @@
-export const HOST = 'http://localhost:3000'
-
 export const ENDPOINTS = {
     auth: {
         login: '/auth/login',
