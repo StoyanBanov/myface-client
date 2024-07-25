@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { apiCallBegan } from "../api";
 import { ENDPOINTS } from "../../constants";
+import { clearChats } from "./messages";
 
 const url = ENDPOINTS.chats
 
@@ -24,7 +25,7 @@ const chats = createSlice({
         availableFailed: (state) => {
             state.available.loading = false
         },
-        availableRemoved: (state) => {
+        availableCleared: (state) => {
             state.available.list = []
         },
 
@@ -36,6 +37,9 @@ const chats = createSlice({
         },
         openRemoved: (state, action) => {
             state.open = state.open.filter(c => c.chat._id != action.payload)
+        },
+        openCleared: (state) => {
+            state.open = []
         },
 
         openRequested: (state, action) => {
@@ -53,7 +57,7 @@ const chats = createSlice({
         },
         openFailed: (state, action) => {
             state.open = state.open.filter(c => c.chat._id != action.payload.chat)
-        },
+        }
     }
 })
 
@@ -69,11 +73,12 @@ const {
     openRequested,
     openAddedFromRequest,
     openFailed,
+    openCleared,
 
     availableRequested,
     availableReceived,
     availableFailed,
-    availableRemoved
+    availableCleared
 } = chats.actions
 
 
@@ -99,8 +104,14 @@ export const getChats = () =>
         onError: availableFailed.type
     })
 
-export const removeChats = () =>
-    availableRemoved()
+export const clearAvailableChats = () =>
+    availableCleared()
 
 export const removeChat = (chat) =>
     openRemoved(chat)
+
+export const clearOpenChats = () =>
+    (dispatch) => {
+        dispatch(openCleared())
+        dispatch(clearChats())
+    }

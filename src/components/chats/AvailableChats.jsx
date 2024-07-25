@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { getChats, removeChats } from "../../store/chat/chats"
+import { getChats, clearAvailableChats } from "../../store/chat/chats"
 import { useCallback, useEffect, useRef, useState } from "react"
 import AvailableChatCard from "./AvailableChatCard"
 
@@ -11,7 +11,7 @@ const AvailableChats = () => {
     const chatsContainer = useRef()
 
     const closeChats = useCallback(() => {
-        dispatch(removeChats())
+        dispatch(clearAvailableChats())
         setIsChatsRendered(false)
     }, [dispatch])
 

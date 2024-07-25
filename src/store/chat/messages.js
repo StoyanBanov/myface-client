@@ -45,8 +45,11 @@ const messages = createSlice({
             chat.loading = false
         },
 
-        chatRemoved: (state, action) => {
+        removed: (state, action) => {
             delete state[action.payload]
+        },
+        cleared: (state) => {
+            state = {}
         }
     }
 })
@@ -59,7 +62,8 @@ const { requested,
 
     added,
 
-    chatRemoved,
+    removed,
+    cleared,
 
     appended
 } = messages.actions
@@ -94,4 +98,7 @@ export const appendMessage = (message) =>
     }
 
 export const removeMessages = (chat) =>
-    chatRemoved(chat)
+    removed(chat)
+
+export const clearChats = () =>
+    cleared()
