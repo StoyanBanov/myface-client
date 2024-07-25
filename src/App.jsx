@@ -18,12 +18,13 @@ import Logout from './components/auth/Logout';
 import Search from './components/search/Search';
 import NotFound from './components/notFound/NotFound';
 
-import './App.css'
 import { appendMessage } from './store/chat/messages';
 import Home from './components/home/Home';
 import CreatePost from './components/posts/CreatePost';
 import CreateChat from './components/chats/CreateChat';
 import PostDetails from './components/posts/PostDetails';
+
+import './App.css'
 
 function App() {
     const dispatch = useDispatch()
@@ -59,27 +60,29 @@ function App() {
                 <>
                     <Header />
 
-                    <Routes>
-                        <Route path='/' element={<Home />} />
+                    <section>
+                        <Routes>
+                            <Route path='/' element={<Home />} />
 
-                        <Route path='/search' element={<Search />} />
+                            <Route path='/search' element={<Search />} />
 
-                        <Route path='/create'>
-                            <Route index={true} element={<CreatePost />} />
-                            <Route path="post" element={<CreatePost />} />
+                            <Route path='/create'>
+                                <Route index={true} element={<CreatePost />} />
+                                <Route path="post" element={<CreatePost />} />
 
-                            <Route path="chat" element={<CreateChat />} />
-                        </Route>
+                                <Route path="chat" element={<CreateChat />} />
+                            </Route>
 
-                        <Route path='posts/:id' element={<PostDetails />} />
+                            <Route path='posts/:id' element={<PostDetails />} />
 
-                        <Route path='/register' element={<Register />} />
-                        <Route path='/login' element={<Login />} />
-                        <Route path='/logout' element={<Logout />} />
-                        <Route path='/verify' element={<Verify />} />
+                            <Route path='/register' element={<Register />} />
+                            <Route path='/login' element={<Login />} />
+                            <Route path='/logout' element={<Logout />} />
+                            <Route path='/verify' element={<Verify />} />
 
-                        <Route path='*' element={<NotFound />} />
-                    </Routes>
+                            <Route path='*' element={<NotFound />} />
+                        </Routes>
+                    </section>
 
                     <OpenChats />
                 </>

@@ -3,12 +3,15 @@ import { getChats, clearAvailableChats } from "../../store/chat/chats"
 import { useCallback, useEffect, useRef, useState } from "react"
 import AvailableChatCard from "./AvailableChatCard"
 
+import style from './style.module.css'
+
 const AvailableChats = () => {
     const [isChatsRendered, setIsChatsRendered] = useState(false)
 
     const dispatch = useDispatch()
 
     const chatsContainer = useRef()
+    const chatsToggleAnchor = useRef()
 
     const closeChats = useCallback(() => {
         dispatch(clearAvailableChats())
@@ -16,7 +19,7 @@ const AvailableChats = () => {
     }, [dispatch])
 
     const onCloseChats = useCallback((e) => {
-        if (!e.composedPath().includes(chatsContainer.current)) closeChats()
+        if (!e.composedPath().includes(chatsContainer.current) && e.target != chatsToggleAnchor.current) closeChats()
     }, [closeChats])
 
     useEffect(() => {
@@ -31,7 +34,9 @@ const AvailableChats = () => {
 
     const chats = useSelector(state => state.entities.chats.available.list)
 
-    const onRenderChatsClick = () => {
+    const onRenderChatsClick = e => {
+        e.preventDefault()
+
         if (!isChatsRendered) {
             dispatch(getChats())
             setIsChatsRendered(true)
@@ -41,18 +46,21 @@ const AvailableChats = () => {
     }
 
     return (
-        <div ref={chatsContainer}>
-            <button onClick={onRenderChatsClick}>Chats</button>
-            {isChatsRendered &&
-                <ul>
-                    {chats.map(c =>
-                        <li key={c._id}>
-                            <AvailableChatCard chat={c} closeChats={closeChats} />
-                        </li>
-                    )}
-                </ul>
-            }
-        </div >
+        <>
+            <a ref={chatsToggleAnchor} href="#" onClick={onRenderChatsClick}>Chats</a>
+
+            <div ref={chatsContainer} className={style.availableChatsContainer}>
+                {isChatsRendered &&
+                    <ul>
+                        {chats.map(c =>
+                            <li key={c._id}>
+                                <AvailableChatCard chat={c} closeChats={closeChats} />
+                            </li>
+                        )}
+                    </ul>
+                }
+            </div>
+        </>
     )
 }
 

@@ -1,6 +1,41 @@
+.availableChatsContainer {
+    position: fixed;
+    top: 30px;
+    background-color: white;
+    box-shadow: -2px 3px 5px gray;
+}
+
+
+
+.openChatsUl {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
+.openChatLi {
+    margin: 15px;
+    padding: 5px;
+    background-color: white;
+    width: 350px;
+    box-shadow: 0px 1px 5px gray;
+}
+
+.openChatLi h3 {
+    margin: 0;
+}
+
+.openChatLi input {
+    width: 100%;
+    margin-top: 5px;
+}
+
+
 .messagesUl {
     height: 350px;
-    width: 300px;
     overflow-x: hidden;
     overflow-y: scroll;
     display: flex;
@@ -17,8 +52,17 @@
 .messageLi>div,
 .messageLiUser>div {
     width: 200px;
+    margin: 5px;
     display: flex;
     flex-direction: column;
+}
+
+.messageLi>div {
+    background-color: gray;
+}
+
+.messageLiUser>div {
+    background-color: rgb(242, 242, 255);
 }
 
 .messageLi {

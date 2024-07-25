@@ -1,6 +1,7 @@
 const HOST = import.meta.env.VITE_HOST
 
 import * as actions from '../api'
+import { logout } from '../auth'
 
 export default ({ dispatch, getState }) => next => async (action) => {
     if (action.type != actions.apiCallBegan.type) return next(action)
@@ -29,6 +30,9 @@ export default ({ dispatch, getState }) => next => async (action) => {
         dispatch(actions.apiCallFailed(error.message))
 
         if (onError) dispatch({ type: onError, payload: { message: error.message, ...persist } })
+
+        if (error.message == 'Logged out!')
+            dispatch(logout())
     }
 }
 

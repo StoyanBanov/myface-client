@@ -44,15 +44,17 @@ const OpenChatCard = ({ chat, loading }) => {
     }
 
     return (
-        <div>
-            <span onClick={onCloseChat}>
-                <svg height={20} width={20} stroke="black">
-                    <line x1={2} y1={2} x2={18} y2={18} />
-                    <line x1={18} y1={2} x2={2} y2={18} />
-                </svg>
-            </span>
+        <>
+            <div>
+                <span onClick={onCloseChat}>
+                    <svg height={20} width={20} stroke="black">
+                        <line x1={2} y1={2} x2={18} y2={18} />
+                        <line x1={18} y1={2} x2={2} y2={18} />
+                    </svg>
+                </span>
 
-            <h3>{chat.title}</h3>
+                <h3>{chat.title}</h3>
+            </div>
 
             <OpenMessages chatId={chat._id} />
 
@@ -60,7 +62,7 @@ const OpenChatCard = ({ chat, loading }) => {
                 <input name="text" placeholder="text..." value={values.text} onChange={onValueChange} />
                 <input type="file" name="images" multiple onChange={onFileChange} />
             </form>
-        </div>
+        </>
     )
 }
 
