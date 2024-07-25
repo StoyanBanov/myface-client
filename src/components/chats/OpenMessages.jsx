@@ -48,19 +48,22 @@ const OpenMessages = ({ chatId }) => {
         <ul ref={messagesRef} className={style.messagesUl} onScroll={onChatScroll}>
             {messages?.map(m =>
                 <li className={m.user._id == data._id ? style.messageLiUser : style.messageLi} key={m._id}>
+                    {m.user._id != data._id &&
+                        <img className={style.messageAvatar} src={`${CDN_AVATAR_ADDRESS}/${m.user.profilePic
+                            || (m.user.gender == 'male'
+                                ? CDN_DEFAULT_AVATAR_NAME_MALE
+                                : CDN_DEFAULT_AVATAR_NAME_FEMALE
+                            )}`} />
+                    }
+
                     <div>
-                        {m.images.map(id =>
-                            <img className={style.messageImg} key={id} src={`${CDN_THUMBNAIL_ADDRESS}/${id}`} />
-                        )}
+                        <div>
+                            {m.images.map(id =>
+                                <img className={style.messageImg} key={id} src={`${CDN_THUMBNAIL_ADDRESS}/${id}`} />
+                            )}
+                        </div>
 
                         <p>
-                            {m.user._id != data._id &&
-                                <img className={style.messageAvatar} src={`${CDN_AVATAR_ADDRESS}/${m.user.profilePic
-                                    || (m.user.gender == 'male'
-                                        ? CDN_DEFAULT_AVATAR_NAME_MALE
-                                        : CDN_DEFAULT_AVATAR_NAME_FEMALE
-                                    )}`} />
-                            }
                             {m.text}
                         </p>
                     </div>

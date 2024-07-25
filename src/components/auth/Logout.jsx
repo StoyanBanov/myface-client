@@ -15,7 +15,7 @@ const Logout = () => {
         dispatch(clearOpenChats())
     }, [dispatch])
 
-    return <Navigate to={'/'} replace />
+    return <Navigate to={'/login'} replace />
 }
 
 export default Logout

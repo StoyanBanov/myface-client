@@ -1,0 +1,21 @@
+.authForm {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.authFieldset h2 {
+    margin: 0;
+}
+
+.authForm label {
+    margin-top: 10px;
+}
+
+.authForm input {
+    margin-left: 10px;
+}
+
+.authForm button {
+    margin: 10px;
+}

@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useSearchParams } from "react-router-dom"
-import { getUsers } from "../../store/users"
+import { clearUsers, getUsers } from "../../store/users"
 import UserCard from "../helpers/components/userCard/UserCard"
 
 const Search = () => {
@@ -11,6 +11,10 @@ const Search = () => {
 
     useEffect(() => {
         dispatch(getUsers(searchParams.get('search')))
+
+        return () => {
+            dispatch(clearUsers())
+        }
     }, [dispatch, searchParams])
 
     const users = useSelector(state => state.entities.users.list)

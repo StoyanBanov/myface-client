@@ -28,7 +28,7 @@ const posts = createSlice({
         },
 
         removed: (state) => {
-            state = posts.getInitialState()
+            return posts.getInitialState()
         }
     }
 })

@@ -6,6 +6,8 @@ import OpenMessages from "./OpenMessages"
 import { removeChat } from "../../store/chat/chats"
 import { addMessage, getMessages, removeMessages } from "../../store/chat/messages"
 
+import style from './style.module.css'
+
 const OpenChatCard = ({ chat, loading }) => {
     const initialValues = {
         text: '',
@@ -45,15 +47,15 @@ const OpenChatCard = ({ chat, loading }) => {
 
     return (
         <>
-            <div>
+            <div className={style.openChatHeader}>
+                <h3>{chat.title}</h3>
+
                 <span onClick={onCloseChat}>
                     <svg height={20} width={20} stroke="black">
                         <line x1={2} y1={2} x2={18} y2={18} />
                         <line x1={18} y1={2} x2={2} y2={18} />
                     </svg>
                 </span>
-
-                <h3>{chat.title}</h3>
             </div>
 
             <OpenMessages chatId={chat._id} />

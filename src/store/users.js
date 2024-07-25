@@ -95,3 +95,6 @@ export const removeFriend = ({ id }) =>
         onSuccess: friendRemoved.type,
         onError: requestFailed.type
     })
+
+export const clearUsers = () =>
+    cleared()

@@ -49,7 +49,7 @@ const messages = createSlice({
             delete state[action.payload]
         },
         cleared: (state) => {
-            state = {}
+            return {}
         }
     }
 })
