@@ -1,8 +1,7 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { register } from "../../store/auth"
-import { useSetAuthData } from "../helpers/customHooks/useSetAuthData"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 import FormInput from "../helpers/components/formInput/FormInput"
 
@@ -16,8 +15,7 @@ const Register = () => {
         lname: '',
         password: '',
         rePassword: '',
-        dob: '',
-        gender: ''
+        dob: undefined
     })
 
     const [errors, setErrors] = useState({
@@ -30,11 +28,7 @@ const Register = () => {
         gender: { value: false, hints: [] }
     })
 
-    useSetAuthData()
-
     const dispatch = useDispatch()
-
-    const navigate = useNavigate()
 
     const onValueChange = ({ target: { name, value } }) => {
         setValues(state => ({ ...state, [name]: value }))
@@ -69,8 +63,6 @@ const Register = () => {
         e.preventDefault()
 
         dispatch(register(values))
-
-        navigate('/verify')
     }
 
     return (

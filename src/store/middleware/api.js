@@ -1,7 +1,8 @@
 const HOST = import.meta.env.VITE_HOST
 
+import { clearAuthData } from '../../util/session'
 import * as actions from '../api'
-import { logout } from '../auth'
+import { clear } from '../auth'
 
 export default ({ dispatch, getState }) => next => async (action) => {
     if (action.type != actions.apiCallBegan.type) return next(action)
@@ -24,15 +25,18 @@ export default ({ dispatch, getState }) => next => async (action) => {
         dispatch(actions.apiCallSucceeded(data))
 
         if (onSuccess) dispatch({ type: onSuccess, payload: { data, ...persist } })
-    } catch (error) {
-        console.log(error);
+    } catch ({ message }) {
+        console.log(message);
 
-        dispatch(actions.apiCallFailed(error.message))
+        dispatch(actions.apiCallFailed(message))
 
-        if (onError) dispatch({ type: onError, payload: { message: error.message, ...persist } })
+        if (onError) dispatch({ type: onError, payload: { message, ...persist } })
 
-        if (error.message == 'Logged out!')
-            dispatch(logout())
+        if (message == 'Logged out!') {
+            clearAuthData()
+            dispatch(clear())
+        }
+        else alert(message)
     }
 }
 

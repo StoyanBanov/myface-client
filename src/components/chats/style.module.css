@@ -53,13 +53,20 @@
 .messageLiUser {
     width: 100%;
     display: flex;
-    justify-content: left;
     align-items: end;
+}
+
+.messageLi {
+    justify-content: left;
+}
+
+.messageLiUser {
+    justify-content: right;
 }
 
 .messageLi>div,
 .messageLiUser>div {
-    width: 200px;
+    max-width: 200px;
     margin: 5px;
     display: flex;
     flex-direction: column;

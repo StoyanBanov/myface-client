@@ -28,7 +28,7 @@ const auth = createSlice({
         },
 
         sentRegisterData: (state, action) => {
-            state.data = { ...action.payload.data, verified: false }
+            state.data = { ...action.payload.data, notVerified: true }
             state.loading = false
         },
         verified: (state, action) => {
@@ -59,6 +59,11 @@ const {
     verified,
     cleared
 } = auth.actions
+
+export {
+    received
+}
+
 
 
 // Action Creators
@@ -103,3 +108,6 @@ export const logout = () =>
         onSuccess: cleared.type,
         onError: cleared.type
     })
+
+export const clear = () =>
+    cleared()

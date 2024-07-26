@@ -21,10 +21,12 @@ import NotFound from './components/notFound/NotFound';
 import { appendMessage } from './store/chat/messages';
 import Home from './components/home/Home';
 import CreatePost from './components/posts/CreatePost';
-import CreateChat from './components/chats/CreateChat';
 import PostDetails from './components/posts/PostDetails';
 
 import './App.css'
+import User from './components/helpers/components/routeGuards/User';
+import Guest from './components/helpers/components/routeGuards/Guest';
+import NotVerified from './components/helpers/components/routeGuards/NotVerified';
 
 function App() {
     const dispatch = useDispatch()
@@ -38,7 +40,7 @@ function App() {
     }, [dispatch])
 
     useEffect(() => {
-        if (data._id && !isAuthLoading) {
+        if (data._id && !isAuthLoading && data.verified !== false) {
             dispatch(initializeCurrent(data._id))
 
             socket.on('message', (message) => {
@@ -62,23 +64,29 @@ function App() {
 
                     <section>
                         <Routes>
-                            <Route path='/' element={<Home />} />
+                            <Route element={<User />}>
+                                <Route path='/' element={<Home />} />
 
-                            <Route path='/search' element={<Search />} />
+                                <Route path='/search' element={<Search />} />
 
-                            <Route path='/create'>
-                                <Route index={true} element={<CreatePost />} />
-                                <Route path="post" element={<CreatePost />} />
+                                <Route path='/create'>
+                                    <Route index={true} element={<CreatePost />} />
+                                    <Route path="post" element={<CreatePost />} />
+                                </Route>
 
-                                <Route path="chat" element={<CreateChat />} />
+                                <Route path='/logout' element={<Logout />} />
+                            </Route>
+
+                            <Route element={<Guest />}>
+                                <Route path='/register' element={<Register />} />
+                                <Route path='/login' element={<Login />} />
+                            </Route>
+
+                            <Route element={<NotVerified />}>
+                                <Route path='/verify' element={<Verify />} />
                             </Route>
 
                             <Route path='posts/:id' element={<PostDetails />} />
-
-                            <Route path='/register' element={<Register />} />
-                            <Route path='/login' element={<Login />} />
-                            <Route path='/logout' element={<Logout />} />
-                            <Route path='/verify' element={<Verify />} />
 
                             <Route path='*' element={<NotFound />} />
                         </Routes>

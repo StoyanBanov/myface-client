@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import reducer from "./reducer";
 import api from "./middleware/api";
+import localStorage from "./middleware/localStorage";
 
 export default configureStore({
     reducer,
@@ -8,5 +9,5 @@ export default configureStore({
         serializableCheck: {
             ignoredActions: ['api/callBegan']
         }
-    }).concat(api)
+    }).concat(api, localStorage)
 })

@@ -1,12 +1,10 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { verifyRegister } from "../../store/auth"
-import { useSetAuthData } from "../helpers/customHooks/useSetAuthData"
+import FormInput from "../helpers/components/formInput/FormInput"
 
 const Verify = () => {
     const [code, setCode] = useState('')
-
-    useSetAuthData()
 
     const dispatch = useDispatch()
 
@@ -21,10 +19,9 @@ const Verify = () => {
 
     return (
         <form onSubmit={onSubmit}>
-            <label htmlFor="code">
-                Code
-                <input id="code" name="code" value={code} onChange={onChange} />
-            </label>
+            <FormInput label={'Code'} id={'code'} name={'code'} value={code} onChange={onChange} />
+
+            <button>Submit</button>
         </form>
     )
 }
