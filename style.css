@@ -10,6 +10,7 @@ body {
 p {
     overflow-wrap: break-word;
     width: 100%;
+    margin: 0;
 }
 
 li,
@@ -20,4 +21,13 @@ div {
 svg,
 img {
     cursor: pointer;
+}
+
+h3 {
+    margin: 0;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
 }

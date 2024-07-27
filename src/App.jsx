@@ -27,6 +27,12 @@ import './App.css'
 import User from './components/helpers/components/routeGuards/User';
 import Guest from './components/helpers/components/routeGuards/Guest';
 import NotVerified from './components/helpers/components/routeGuards/NotVerified';
+import Posts from './store/post/posts';
+import Friends from './components/profile/Friends';
+import CurrentUserProfile from './components/profile/CurrentUserProfile';
+import Edit from './components/profile/Edit';
+import Settings from './components/profile/Settings';
+import VerifiedOrGuest from './components/helpers/components/routeGuards/VerifiedOrGuest';
 
 function App() {
     const dispatch = useDispatch()
@@ -40,7 +46,7 @@ function App() {
     }, [dispatch])
 
     useEffect(() => {
-        if (data._id && !isAuthLoading && data.verified !== false) {
+        if (data._id && !isAuthLoading && data.notVerified !== true) {
             dispatch(initializeCurrent(data._id))
 
             socket.on('message', (message) => {
@@ -51,7 +57,7 @@ function App() {
         }
 
         return () => {
-            socket.emit('offline')
+            socket.emit('offline', data._id)
             socket.off('message')
         }
     }, [dispatch, data, isAuthLoading])
@@ -64,22 +70,31 @@ function App() {
 
                     <section>
                         <Routes>
-                            <Route element={<User />}>
-                                <Route path='/' element={<Home />} />
+                            <Route element={<VerifiedOrGuest />}>
+                                <Route element={<User />}>
+                                    <Route path='/' element={<Home />} />
 
-                                <Route path='/search' element={<Search />} />
+                                    <Route path='/profile' element={<CurrentUserProfile />}>
+                                        <Route path='friends' element={<Friends />} />
+                                        <Route path='posts' element={<Posts />} />
+                                        <Route path='edit' element={<Edit />} />
+                                        <Route path='settings' element={<Settings />} />
+                                    </Route>
 
-                                <Route path='/create'>
-                                    <Route index={true} element={<CreatePost />} />
-                                    <Route path="post" element={<CreatePost />} />
+                                    <Route path='/search' element={<Search />} />
+
+                                    <Route path='/create'>
+                                        <Route index={true} element={<CreatePost />} />
+                                        <Route path="post" element={<CreatePost />} />
+                                    </Route>
+
+                                    <Route path='/logout' element={<Logout />} />
                                 </Route>
 
-                                <Route path='/logout' element={<Logout />} />
-                            </Route>
-
-                            <Route element={<Guest />}>
-                                <Route path='/register' element={<Register />} />
-                                <Route path='/login' element={<Login />} />
+                                <Route element={<Guest />}>
+                                    <Route path='/register' element={<Register />} />
+                                    <Route path='/login' element={<Login />} />
+                                </Route>
                             </Route>
 
                             <Route element={<NotVerified />}>

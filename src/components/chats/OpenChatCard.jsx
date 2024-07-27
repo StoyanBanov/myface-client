@@ -7,6 +7,8 @@ import { removeChat } from "../../store/chat/chats"
 import { addMessage, getMessages, removeMessages } from "../../store/chat/messages"
 
 import style from './style.module.css'
+import { ALLOWED_FILE_TYPES } from "../../constants"
+import FormInput from "../helpers/components/form/FormInput"
 
 const OpenChatCard = ({ chat, loading }) => {
     const initialValues = {
@@ -34,7 +36,8 @@ const OpenChatCard = ({ chat, loading }) => {
     const onMessageSubmit = e => {
         e.preventDefault()
 
-        dispatch(addMessage({ ...values, chat: chat._id }))
+        if (values.text || (values.images.length && values.images.every(i => ALLOWED_FILE_TYPES.includes(i))))
+            dispatch(addMessage({ ...values, chat: chat._id }))
 
         setValues({ ...initialValues })
         e.target.reset()
@@ -62,7 +65,7 @@ const OpenChatCard = ({ chat, loading }) => {
 
             <form onSubmit={onMessageSubmit}>
                 <input name="text" placeholder="text..." value={values.text} onChange={onValueChange} />
-                <input type="file" name="images" multiple onChange={onFileChange} />
+                <FormInput type={'file'} name={'images'} multiple={true} onChange={onFileChange} />
             </form>
         </>
     )

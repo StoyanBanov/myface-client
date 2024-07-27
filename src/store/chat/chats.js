@@ -30,10 +30,12 @@ const chats = createSlice({
         },
 
         openAdded: (state, action) => {
-            state.open.push({
-                chat: state.available.list.find(c => c._id == action.payload),
-                loading: false
-            })
+            if (!state.open.find(c => c.chat._id == action.payload)) {
+                state.open.push({
+                    chat: state.available.list.find(c => c._id == action.payload),
+                    loading: false
+                })
+            }
         },
         openRemoved: (state, action) => {
             state.open = state.open.filter(c => c.chat._id != action.payload)

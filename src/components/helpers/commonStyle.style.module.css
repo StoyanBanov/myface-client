@@ -1,0 +1,16 @@
+.inactiveLink,
+.activeLink {
+    z-index: 2;
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+}
+
+.inactiveLink:hover,
+.activeLink:hover {
+    background-color: rgb(235, 235, 235);
+}
+
+.activeLink {
+    background-color: aliceblue;
+}

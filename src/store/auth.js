@@ -31,6 +31,11 @@ const auth = createSlice({
             state.data = { ...action.payload.data, notVerified: true }
             state.loading = false
         },
+
+        sentDataForVerification: (state) => {
+            state.data.notVerified = true
+            state.loading = false
+        },
         verified: (state, action) => {
             state.data = action.payload.data
             state.loading = false
@@ -56,12 +61,16 @@ const {
     received,
 
     sentRegisterData,
+
+    sentDataForVerification,
+
     verified,
     cleared
 } = auth.actions
 
 export {
-    received
+    received,
+    verified
 }
 
 
@@ -81,26 +90,6 @@ export const login = (body) =>
         onError: requestFailed.type
     })
 
-export const register = (body) =>
-    apiCallBegan({
-        url: endpoints.register,
-        method: 'post',
-        body,
-        onStart: requested.type,
-        onSuccess: sentRegisterData.type,
-        onError: requestFailed.type
-    })
-
-export const verifyRegister = (body) =>
-    apiCallBegan({
-        url: endpoints.verifyRegister,
-        method: 'post',
-        body,
-        onStart: requested.type,
-        onSuccess: verified.type,
-        onError: requestFailed.type
-    })
-
 export const logout = () =>
     apiCallBegan({
         url: endpoints.logout,
@@ -111,3 +100,54 @@ export const logout = () =>
 
 export const clear = () =>
     cleared()
+
+export const edit = (body) =>
+    apiCallBegan({
+        url: endpoints.edit,
+        method: 'put',
+        body,
+        onStart: requested.type,
+        onSuccess: received.type,
+        onError: requestFailed.type
+    })
+
+
+
+export const register = (body) =>
+    apiCallBegan({
+        url: endpoints.register,
+        method: 'post',
+        body,
+        onStart: requested.type,
+        onSuccess: sentRegisterData.type,
+        onError: requestFailed.type
+    })
+
+export const changePassword = (body) =>
+    apiCallBegan({
+        url: endpoints.changePassword,
+        method: 'put',
+        body,
+        onStart: requested.type,
+        onSuccess: sentDataForVerification.type,
+        onError: requestFailed.type
+    })
+
+export const del = () =>
+    apiCallBegan({
+        url: endpoints.delete,
+        method: 'delete',
+        onStart: requested.type,
+        onSuccess: sentDataForVerification.type,
+        onError: requestFailed.type
+    })
+
+export const verify = (body) =>
+    apiCallBegan({
+        url: endpoints.verify,
+        method: 'post',
+        body,
+        onStart: requested.type,
+        onSuccess: verified.type,
+        onError: requestFailed.type
+    })

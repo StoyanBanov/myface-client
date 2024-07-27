@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import AvailableChatCard from "./AvailableChatCard"
 
 import style from './style.module.css'
+import commonStyle from '../helpers/commonStyle.style.module.css'
 
 const AvailableChats = () => {
     const [isChatsRendered, setIsChatsRendered] = useState(false)
@@ -47,7 +48,14 @@ const AvailableChats = () => {
 
     return (
         <>
-            <a ref={chatsToggleAnchor} href="#" onClick={onRenderChatsClick}>Chats</a>
+            <a
+                className={isChatsRendered ? commonStyle.activeLink : commonStyle.inactiveLink
+                } ref={chatsToggleAnchor}
+                href="#"
+                onClick={onRenderChatsClick}
+            >
+                Chats
+            </a>
 
             <div ref={chatsContainer} className={style.availableChatsContainer}>
                 {isChatsRendered &&

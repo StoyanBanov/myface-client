@@ -1,0 +1,33 @@
+.inputError {
+    border-color: red;
+}
+
+.mainForm {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.mainFieldset h2 {
+    margin: 0;
+}
+
+.mainForm label {
+    margin-top: 10px;
+}
+
+.mainForm input {
+    margin-left: 10px;
+}
+
+.mainForm input[type="file"] {
+    width: 180px;
+}
+
+.mainForm button {
+    margin: 10px;
+}
+
+.errorsUl {
+    color: red;
+}

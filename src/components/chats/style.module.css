@@ -1,8 +1,13 @@
 .availableChatsContainer {
     position: fixed;
     top: 30px;
+    margin-right: 1vw;
     background-color: white;
     box-shadow: -2px 3px 5px gray;
+}
+
+.availableChatsContainer div {
+    padding: 5px;
 }
 
 
@@ -68,12 +73,13 @@
 .messageLiUser>div {
     max-width: 200px;
     margin: 5px;
+    padding: 5px;
     display: flex;
     flex-direction: column;
 }
 
 .messageLi>div {
-    background-color: gray;
+    background-color: rgb(214, 214, 214);
 }
 
 .messageLiUser>div {
@@ -85,10 +91,16 @@
     align-items: end;
 }
 
+
+.messageImgsContainer {
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+}
+
 .messageImg {
-    height: 100px;
-    width: 100px;
     object-fit: contain;
+    margin: 2px;
 }
 
 .messageAvatar {

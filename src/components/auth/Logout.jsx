@@ -4,16 +4,21 @@ import { useDispatch } from "react-redux"
 import { logout } from "../../store/auth"
 import { useEffect } from "react"
 import { clearOpenChats } from "../../store/chat/chats"
+import { useStatus } from "../helpers/customHooks/useStatus"
 
 const Logout = () => {
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        clearAuthData()
+    const { data } = useStatus()
 
-        dispatch(logout())
-        dispatch(clearOpenChats())
-    }, [dispatch])
+    useEffect(() => {
+        if (data._id) {
+            clearAuthData()
+
+            dispatch(logout())
+            dispatch(clearOpenChats())
+        }
+    }, [dispatch, data._id])
 
     return <Navigate to={'/login'} replace />
 }

@@ -57,9 +57,15 @@ const OpenMessages = ({ chatId }) => {
                     }
 
                     <div>
-                        <div>
+                        <div className={style.messageImgsContainer}>
                             {m.images.map(id =>
-                                <img className={style.messageImg} key={id} src={`${CDN_THUMBNAIL_ADDRESS}/${id}`} />
+                                <img
+                                    key={id}
+                                    width={m.images.length == 1 ? 180 : 90}
+                                    height={m.images.length == 1 ? 180 : 90}
+                                    className={style.messageImg}
+                                    src={`${CDN_THUMBNAIL_ADDRESS}/${id}`}
+                                />
                             )}
                         </div>
 

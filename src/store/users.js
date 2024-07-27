@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { apiCallBegan } from "./api";
 import { ENDPOINTS } from "../constants";
 
-const url = ENDPOINTS.users
+const urlUsers = ENDPOINTS.users
+const friendsEndpoints = ENDPOINTS.friends
 
 const users = createSlice({
     name: 'users',
@@ -63,7 +64,7 @@ const { initializedCurrent, requested, received, requestFailed, friendAdded, fri
 
 export const initializeCurrent = (id) =>
     apiCallBegan({
-        url: `${url}/${id}`,
+        url: `${urlUsers}/${id}`,
         onStart: requested.type,
         onSuccess: initializedCurrent.type,
         onError: requestFailed.type
@@ -71,7 +72,7 @@ export const initializeCurrent = (id) =>
 
 export const getUsers = (query = '') =>
     apiCallBegan({
-        url: `${url}?${query}`,
+        url: `${urlUsers}?${query}`,
         onStart: requested.type,
         onSuccess: received.type,
         onError: requestFailed.type
@@ -79,7 +80,7 @@ export const getUsers = (query = '') =>
 
 export const addFriend = (body) =>
     apiCallBegan({
-        url,
+        url: friendsEndpoints.request,
         method: 'post',
         body,
         onStart: requested.type,
@@ -89,7 +90,7 @@ export const addFriend = (body) =>
 
 export const removeFriend = ({ id }) =>
     apiCallBegan({
-        url: `${url}/${id}`,
+        url: `${friendsEndpoints.remove}/${id}`,
         method: 'delete',
         onStart: requested.type,
         onSuccess: friendRemoved.type,

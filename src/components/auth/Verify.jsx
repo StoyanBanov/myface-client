@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import { verifyRegister } from "../../store/auth"
-import FormInput from "../helpers/components/formInput/FormInput"
+import { verify } from "../../store/auth"
+import FormInput from "../helpers/components/form/FormInput"
 
 const Verify = () => {
     const [code, setCode] = useState('')
@@ -14,12 +14,12 @@ const Verify = () => {
 
     const onSubmit = e => {
         e.preventDefault()
-        dispatch(verifyRegister({ code }))
+        dispatch(verify({ code }))
     }
 
     return (
         <form onSubmit={onSubmit}>
-            <FormInput label={'Code'} id={'code'} name={'code'} value={code} onChange={onChange} />
+            <FormInput label={'Code'} id={'code'} name={'code'} value={code} onValueChange={onChange} />
 
             <button>Submit</button>
         </form>

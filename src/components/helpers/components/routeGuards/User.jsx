@@ -6,7 +6,7 @@ const User = () => {
 
     return isAuth
         ? <Outlet />
-        : <Navigate to={'/logout'} replace />
+        : <Navigate to={'/login'} replace />
 }
 
 export default User

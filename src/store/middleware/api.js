@@ -18,7 +18,7 @@ export default ({ dispatch, getState }) => next => async (action) => {
     try {
         const request = await fetch(HOST + url, createOptions(method, body, token))
 
-        const data = request.status != 204 && await request.json()
+        const data = request.status != 204 ? await request.json() : {}
 
         if (!request.ok) throw new Error(data)
 
@@ -35,8 +35,7 @@ export default ({ dispatch, getState }) => next => async (action) => {
         if (message == 'Logged out!') {
             clearAuthData()
             dispatch(clear())
-        }
-        else alert(message)
+        } else alert(message)
     }
 }
 
@@ -67,7 +66,7 @@ function toFormData(body) {
             for (const v of val) {
                 formData.append(key, v)
             }
-        } else {
+        } else if (val) {
             formData.append(key, val)
         }
     }
