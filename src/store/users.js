@@ -3,7 +3,7 @@ import { apiCallBegan } from "./api";
 import { ENDPOINTS } from "../constants";
 
 const urlUsers = ENDPOINTS.users
-const friendsEndpoints = ENDPOINTS.friends
+const urlFriendships = ENDPOINTS.friendships
 
 const users = createSlice({
     name: 'users',
@@ -29,26 +29,32 @@ const users = createSlice({
             state.loading = false
         },
 
-        friendAdded: (state, action) => {
-            const friendId = action.payload.data._id
+        friendRequested: (state, action) => {
+            const friend = state.list.find(u => u._id == action.payload.data._id)
+            friend.outgoingRequest = true
 
-            state.current.friends.push(friendId)
-            state.list.find(u => u._id == friendId).friends.push(state.current._id)
+            state.loading = false
+        },
+        friendAccepted: (state, action) => {
+            const friend = state.list.find(u => u._id == action.payload.data._id)
+
+            friend.incomingRequest = false
+            friend.friends = true
 
             state.loading = false
         },
         friendRemoved: (state, action) => {
-            const friendId = action.payload.data._id
+            const friend = state.list.find(u => u._id == action.payload.data._id)
 
-            state.current.friends = state.current.friends.filter(f => f._id != friendId)
-
-            const friend = state.list.find(u => u._id == friendId)
-            friend.friends = friend.friends.filter(u => u._id == state.current._id)
+            friend.outgoingRequest = false
+            friend.friends = false
 
             state.loading = false
         },
 
-        cleared: () => users.getInitialState()
+        cleared: (state) => {
+            state.list = []
+        }
     }
 })
 
@@ -57,7 +63,19 @@ export default users.reducer
 
 // Actions
 
-const { initializedCurrent, requested, received, requestFailed, friendAdded, friendRemoved, cleared } = users.actions
+const {
+    initializedCurrent,
+
+    requested,
+    received,
+    requestFailed,
+
+    friendRequested,
+    friendAccepted,
+    friendRemoved,
+
+    cleared
+} = users.actions
 
 
 // Action creators
@@ -78,24 +96,55 @@ export const getUsers = (query = '') =>
         onError: requestFailed.type
     })
 
-export const addFriend = (body) =>
+export const clearUsers = () =>
+    cleared()
+
+
+
+export const getFriends = (search) =>
     apiCallBegan({
-        url: friendsEndpoints.request,
-        method: 'post',
-        body,
+        url: `${urlFriendships}?where=${encodeURIComponent(`"isAccepted=true"`)}${search ? `&search=${search}` : ''}`,
+        method: 'get',
         onStart: requested.type,
-        onSuccess: friendAdded.type,
+        onSuccess: received.type,
         onError: requestFailed.type
     })
 
-export const removeFriend = ({ id }) =>
+export const getFriendshipRequests = (search) =>
+    (dispatch, getState) =>
+        dispatch(apiCallBegan({
+            url: `${urlFriendships}?where=${encodeURIComponent(`"isAccepted=false"&"accepted=${getState().entities.users.current._id}"`)}${search ? `&search=${search}` : ''}`,
+            method: 'get',
+            onStart: requested.type,
+            onSuccess: received.type,
+            onError: requestFailed.type
+        }))
+
+export const requestFriendship = (body) =>
     apiCallBegan({
-        url: `${friendsEndpoints.remove}/${id}`,
+        url: urlFriendships,
+        method: 'post',
+        body,
+        onStart: requested.type,
+        onSuccess: friendRequested.type,
+        onError: requestFailed.type
+    })
+
+export const acceptFriendship = (body) =>
+    apiCallBegan({
+        url: urlFriendships,
+        method: 'put',
+        body,
+        onStart: requested.type,
+        onSuccess: friendAccepted.type,
+        onError: requestFailed.type
+    })
+
+export const removeFriendship = ({ id }) =>
+    apiCallBegan({
+        url: `${urlFriendships}/${id}`,
         method: 'delete',
         onStart: requested.type,
         onSuccess: friendRemoved.type,
         onError: requestFailed.type
     })
-
-export const clearUsers = () =>
-    cleared()

@@ -5,6 +5,7 @@ import { getMessages } from "../../store/chat/messages"
 import style from './style.module.css'
 import { CDN_AVATAR_ADDRESS, CDN_DEFAULT_AVATAR_NAME_FEMALE, CDN_DEFAULT_AVATAR_NAME_MALE, CDN_THUMBNAIL_ADDRESS } from "../../constants"
 import { useStatus } from "../helpers/customHooks/useStatus"
+import ProfilePic from "../helpers/components/images/ProfilePic"
 
 const OpenMessages = ({ chatId }) => {
     const [hasScrolledUp, setHasScrolledUp] = useState(false)
@@ -49,11 +50,7 @@ const OpenMessages = ({ chatId }) => {
             {messages?.map(m =>
                 <li className={m.user._id == data._id ? style.messageLiUser : style.messageLi} key={m._id}>
                     {m.user._id != data._id &&
-                        <img className={style.messageAvatar} src={`${CDN_AVATAR_ADDRESS}/${m.user.profilePic
-                            || (m.user.gender == 'male'
-                                ? CDN_DEFAULT_AVATAR_NAME_MALE
-                                : CDN_DEFAULT_AVATAR_NAME_FEMALE
-                            )}`} />
+                        <ProfilePic user={m.user} className={style.messageAvatar} />
                     }
 
                     <div>

@@ -98,7 +98,7 @@ const Edit = () => {
                 <FormInput type={'radio'} name={'gender'} label={'Male'} value={'male'} onValueChange={onValueChange} onBlur={onBlur} checked={values.gender == 'male'} />
             </fieldset>
 
-            <FormInput label={'Date of Birth'} type={'text'} id={'dob'} name={'dob'} value={values.dob} onValueChange={onValueChange} onBlur={onBlur} />
+            <FormInput label={'Date of Birth'} type={'date'} id={'dob'} name={'dob'} value={values.dob} onValueChange={onValueChange} onBlur={onBlur} />
         </FormTemplate>
     )
 }

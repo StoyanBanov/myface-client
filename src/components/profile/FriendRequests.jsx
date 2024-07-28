@@ -1,13 +1,13 @@
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { clearUsers, getFriends } from "../../store/users"
+import { clearUsers, getFriendshipRequests } from "../../store/users"
 import UsersList from "../helpers/components/users/UsersList"
 
-const Friends = () => {
+const FriendRequests = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getFriends())
+        dispatch(getFriendshipRequests())
 
         return () => {
             dispatch(clearUsers())
@@ -19,4 +19,4 @@ const Friends = () => {
     )
 }
 
-export default Friends
+export default FriendRequests

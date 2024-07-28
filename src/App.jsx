@@ -27,12 +27,15 @@ import './App.css'
 import User from './components/helpers/components/routeGuards/User';
 import Guest from './components/helpers/components/routeGuards/Guest';
 import NotVerified from './components/helpers/components/routeGuards/NotVerified';
-import Posts from './store/post/posts';
 import Friends from './components/profile/Friends';
 import CurrentUserProfile from './components/profile/CurrentUserProfile';
 import Edit from './components/profile/Edit';
 import Settings from './components/profile/Settings';
 import VerifiedOrGuest from './components/helpers/components/routeGuards/VerifiedOrGuest';
+import SearchUsers from './components/search/SearchUsers';
+import SearchPosts from './components/search/SearchPosts';
+import Posts from './components/profile/Posts';
+import FriendRequests from './components/profile/FriendRequests';
 
 function App() {
     const dispatch = useDispatch()
@@ -76,12 +79,16 @@ function App() {
 
                                     <Route path='/profile' element={<CurrentUserProfile />}>
                                         <Route path='friends' element={<Friends />} />
+                                        <Route path='requests' element={<FriendRequests />} />
                                         <Route path='posts' element={<Posts />} />
                                         <Route path='edit' element={<Edit />} />
                                         <Route path='settings' element={<Settings />} />
                                     </Route>
 
-                                    <Route path='/search' element={<Search />} />
+                                    <Route path='/search' element={<Search />} >
+                                        <Route path='users' element={<SearchUsers />} />
+                                        <Route path='posts' element={<SearchPosts />} />
+                                    </Route>
 
                                     <Route path='/create'>
                                         <Route index={true} element={<CreatePost />} />

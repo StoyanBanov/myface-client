@@ -1,7 +1,7 @@
 import { ALLOWED_FILE_TYPES } from '../../../../constants'
 import style from './style.module.css'
 
-const FormInput = ({ id, name, label, type, error, value, onValueChange, onBlur, placeholder, required, checked, multiple }) => {
+const FormInput = ({ id, name, label, type, error, value = '', onValueChange, onBlur, placeholder, required, checked, multiple }) => {
     return (
         <>
             <label className={style.inputLabel} htmlFor={id}>
@@ -12,7 +12,7 @@ const FormInput = ({ id, name, label, type, error, value, onValueChange, onBlur,
                     type={type}
                     id={id}
                     name={name}
-                    value={value}
+                    value={type == 'file' ? undefined : value}
                     onChange={onValueChange}
                     onBlur={onBlur}
                     placeholder={placeholder}

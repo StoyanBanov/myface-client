@@ -12,11 +12,7 @@ export const ENDPOINTS = {
     },
 
     users: '/users',
-    friends: {
-        request: '/users/request-friend',
-        accept: '/users/accept-friend',
-        remove: '/users/remove-friend'
-    },
+    friendships: '/users/friendships',
 
     chats: '/chats',
     messages: '/chats/messages',
@@ -35,3 +31,9 @@ export const CDN_DEFAULT_AVATAR_NAME_FEMALE = 'default-no-profile-female_enfnx0'
 export const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
 export const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/jfif']
+
+export const FRIENDSHIP_STATUS_YOU = 'You'
+export const FRIENDSHIP_STATUS_ACCEPT = 'Accept'
+export const FRIENDSHIP_STATUS_REQUESTED = 'Requested'
+export const FRIENDSHIP_STATUS_FRIENDS = 'Friends'
+export const FRIENDSHIP_STATUS_ADD_FRIEND = 'Add friend'

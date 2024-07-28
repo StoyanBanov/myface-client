@@ -1,0 +1,19 @@
+.usersUl {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.profilePic {
+    height: 150px;
+    width: 150px;
+    object-fit: contain;
+}
+
+.userCardContainer {
+    background-color: white;
+    margin: 2vh;
+    box-shadow: 0px 2px 4px gray;
+    padding: 5px;
+}

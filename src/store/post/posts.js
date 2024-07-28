@@ -27,7 +27,7 @@ const posts = createSlice({
             state.loading = false
         },
 
-        removed: (state) => {
+        cleared: (state) => {
             return posts.getInitialState()
         }
     }
@@ -37,15 +37,17 @@ const {
     requested,
     received,
     requestFailed,
-    added
+    added,
+
+    cleared
 } = posts.actions
 
 export default posts.reducer
 
 // Action Creators
-export const getPosts = () =>
+export const getPosts = (query) =>
     apiCallBegan({
-        url,
+        url: `${url}?${query}`,
         onStart: requested.type,
         onSuccess: received.type,
         onError: requestFailed.type
@@ -60,3 +62,6 @@ export const addPost = (body) =>
         onSuccess: added.type,
         onError: requestFailed.type
     })
+
+export const clearPosts = () =>
+    cleared()
