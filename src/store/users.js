@@ -88,9 +88,9 @@ export const initializeCurrent = (id) =>
         onError: requestFailed.type
     })
 
-export const getUsers = (query = '') =>
+export const getUsers = (search) =>
     apiCallBegan({
-        url: `${urlUsers}?${query}`,
+        url: `${urlUsers}?${search ? `search=${search}` : ''}`,
         onStart: requested.type,
         onSuccess: received.type,
         onError: requestFailed.type
