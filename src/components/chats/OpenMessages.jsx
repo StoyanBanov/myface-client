@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { getMessages } from "../../store/chat/messages"
 
 import style from './style.module.css'
-import { CDN_AVATAR_ADDRESS, CDN_DEFAULT_AVATAR_NAME_FEMALE, CDN_DEFAULT_AVATAR_NAME_MALE, CDN_THUMBNAIL_ADDRESS } from "../../constants"
+import { CDN_ADDRESS } from "../../constants"
 import { useStatus } from "../helpers/customHooks/useStatus"
 import ProfilePic from "../helpers/components/images/ProfilePic"
 
@@ -58,10 +58,12 @@ const OpenMessages = ({ chatId }) => {
                             {m.images.map(id =>
                                 <img
                                     key={id}
-                                    width={m.images.length == 1 ? 180 : 90}
-                                    height={m.images.length == 1 ? 180 : 90}
+                                    style={{
+                                        maxWidth: m.images.length == 1 ? 180 : 90,
+                                        maxHeight: m.images.length == 1 ? 180 : 90
+                                    }}
                                     className={style.messageImg}
-                                    src={`${CDN_THUMBNAIL_ADDRESS}/${id}`}
+                                    src={`${CDN_ADDRESS}/${id}`}
                                 />
                             )}
                         </div>

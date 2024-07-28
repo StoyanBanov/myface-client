@@ -9,6 +9,7 @@ import { addMessage, getMessages, removeMessages } from "../../store/chat/messag
 import style from './style.module.css'
 import { ALLOWED_FILE_TYPES } from "../../constants"
 import FormInput from "../helpers/components/form/FormInput"
+import { hasErrors } from "../../util/validation"
 
 const OpenChatCard = ({ chat, loading }) => {
     const initialValues = {
@@ -17,6 +18,8 @@ const OpenChatCard = ({ chat, loading }) => {
     }
 
     const [values, setValues] = useState({ ...initialValues })
+
+    const [errors, setErrors] = useState({ images: { value: false, hints: ['No larger than 4MB', `Supported formats: ${ALLOWED_FILE_TYPES.join(', ')}`] } })
 
     const dispatch = useDispatch()
 
@@ -31,16 +34,19 @@ const OpenChatCard = ({ chat, loading }) => {
 
     const onFileChange = ({ target: { name, files } }) => {
         setValues(state => ({ ...state, [name]: [...state[name], ...files] }))
+
+        setErrors(state => ({ ...state, name: [...files].some(f => !ALLOWED_FILE_TYPES.includes(f.type)) }))
     }
 
     const onMessageSubmit = e => {
         e.preventDefault()
 
-        if (values.text || (values.images.length && values.images.every(i => ALLOWED_FILE_TYPES.includes(i))))
+        if (!hasErrors(errors) && (values.text || values.images.length)) {
             dispatch(addMessage({ ...values, chat: chat._id }))
 
-        setValues({ ...initialValues })
-        e.target.reset()
+            setValues({ ...initialValues })
+            e.target.reset()
+        }
     }
 
     const onCloseChat = () => {
@@ -64,8 +70,8 @@ const OpenChatCard = ({ chat, loading }) => {
             <OpenMessages chatId={chat._id} />
 
             <form onSubmit={onMessageSubmit}>
-                <input name="text" placeholder="text..." value={values.text} onChange={onValueChange} />
-                <FormInput type={'file'} name={'images'} multiple={true} onChange={onFileChange} />
+                <input name="text" placeholder="text..." value={values.text} onChange={onValueChange} maxLength={500} />
+                <FormInput type={'file'} name={'images'} multiple={true} onValueChange={onFileChange} />
             </form>
         </>
     )

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 import FormInput from "../helpers/components/form/FormInput"
 
 import FormTemplate from "../helpers/components/form/FormTemplate"
-import { validateUserField } from "../../util/validation"
+import { getUserErrors, hasErrors, validateUserField } from "../../util/validation"
 
 const Register = () => {
     const [values, setValues] = useState({
@@ -18,15 +18,7 @@ const Register = () => {
         dob: ''
     })
 
-    const [errors, setErrors] = useState({
-        email: { value: false, hints: [] },
-        fname: { value: false, hints: ['At least 2 characters long'] },
-        lname: { value: false, hints: ['At least 2 characters long'] },
-        password: { value: false, hints: ['At least 8 characters long', 'At least 1 number', 'At least 1 small letter', 'At least 1 capital letter', 'At least 1 special character'] },
-        rePassword: { value: false, hints: [] },
-        dob: { value: false, hints: ['At least 12 years old'] },
-        gender: { value: false, hints: [] }
-    })
+    const [errors, setErrors] = useState(getUserErrors())
 
     const dispatch = useDispatch()
 
@@ -46,9 +38,8 @@ const Register = () => {
     const onSubmit = e => {
         e.preventDefault()
 
-        if (Object.values(errors).some(e => e.value)) return
-
-        dispatch(register(values))
+        if (!hasErrors(errors))
+            dispatch(register(values))
     }
 
     return (

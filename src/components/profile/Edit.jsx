@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 import FormInput from "../helpers/components/form/FormInput"
 import FormTemplate from "../helpers/components/form/FormTemplate"
-import { validateUserField } from "../../util/validation"
+import { getUserErrors, hasErrors, validateUserField } from "../../util/validation"
 import { useOutletContext } from "react-router-dom"
 import { ALLOWED_FILE_TYPES } from "../../constants"
 import { useDispatch } from "react-redux"
@@ -18,11 +18,8 @@ const Edit = () => {
     })
 
     const [errors, setErrors] = useState({
-        profilePic: { value: false, hints: ['No larger than 4MB', `Supported formats: ${ALLOWED_FILE_TYPES.join(', ')}`] },
-        fname: { value: false, hints: ['At least 2 characters long'] },
-        lname: { value: false, hints: ['At least 2 characters long'] },
-        dob: { value: false, hints: ['At least 12 years old'] },
-        gender: { value: false, hints: [] }
+        ...getUserErrors(),
+        profilePic: { value: false, hints: ['No larger than 4MB', `Supported formats: ${ALLOWED_FILE_TYPES.join(', ')}`] }
     })
 
     const { user } = useOutletContext()
@@ -77,9 +74,8 @@ const Edit = () => {
     const onSubmit = e => {
         e.preventDefault()
 
-        if (Object.values(errors).some(e => e.value)) return
-
-        dispatch(edit(values))
+        if (!hasErrors(errors))
+            dispatch(edit(values))
     }
 
     return (
