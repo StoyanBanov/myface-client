@@ -81,9 +81,9 @@ export const addMessage = (body) =>
         persist: { chat: body.chat }
     })
 
-export const getMessages = (chat, { skip = 0, limit = 10 } = {}) =>
+export const getMessages = (chat, { skip = 0 } = {}) =>
     apiCallBegan({
-        url: `${url}/${chat}?orderBy=${encodeURIComponent('"createdAt=-1"')}&skip=${skip}&limit=${limit}`,
+        url: `${url}/${chat}?orderBy=${encodeURIComponent('"createdAt=-1"')}&skip=${skip}`,
         onStart: requested.type,
         onSuccess: received.type,
         onError: failed.type,

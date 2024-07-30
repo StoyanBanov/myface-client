@@ -10,6 +10,7 @@ const users = createSlice({
     initialState: {
         current: {},
         list: [],
+        skip: 0,
         loading: false
     },
     reducers: {
@@ -22,7 +23,10 @@ const users = createSlice({
             state.loading = true
         },
         received: (state, action) => {
-            state.list.push(...action.payload.data)
+            const users = action.payload.data
+
+            state.list.push(...users)
+            state.skip += users.length
             state.loading = false
         },
         requestFailed: (state) => {
@@ -54,6 +58,7 @@ const users = createSlice({
 
         cleared: (state) => {
             state.list = []
+            state.skip = 0
         }
     }
 })
@@ -89,12 +94,16 @@ export const initializeCurrent = (id) =>
     })
 
 export const getUsers = (search) =>
-    apiCallBegan({
-        url: `${urlUsers}?${search ? `search=${search}` : ''}`,
-        onStart: requested.type,
-        onSuccess: received.type,
-        onError: requestFailed.type
-    })
+    (dispatch, getState) => {
+        dispatch(
+            apiCallBegan({
+                url: `${urlUsers}?skip=${getState().entities.users.skip}${search ? `&search=${search}` : ''}`,
+                onStart: requested.type,
+                onSuccess: received.type,
+                onError: requestFailed.type
+            })
+        )
+    }
 
 export const clearUsers = () =>
     cleared()
@@ -102,19 +111,22 @@ export const clearUsers = () =>
 
 
 export const getFriends = (search) =>
-    apiCallBegan({
-        url: `${urlFriendships}?where=${encodeURIComponent(`"isAccepted=true"`)}${search ? `&search=${search}` : ''}`,
-        method: 'get',
-        onStart: requested.type,
-        onSuccess: received.type,
-        onError: requestFailed.type
-    })
+    (dispatch, getState) => {
+        dispatch(
+            apiCallBegan({
+                url: `${urlFriendships}?skip=${getState().entities.users.skip}&where=${encodeURIComponent(`"isAccepted=true"`)}${search ? `&search=${search}` : ''}`,
+                onStart: requested.type,
+                onSuccess: received.type,
+                onError: requestFailed.type
+            })
+        )
+    }
+
 
 export const getFriendshipRequests = (search) =>
     (dispatch, getState) =>
         dispatch(apiCallBegan({
             url: `${urlFriendships}?where=${encodeURIComponent(`"isAccepted=false"&"accepted=${getState().entities.users.current._id}"`)}${search ? `&search=${search}` : ''}`,
-            method: 'get',
             onStart: requested.type,
             onSuccess: received.type,
             onError: requestFailed.type

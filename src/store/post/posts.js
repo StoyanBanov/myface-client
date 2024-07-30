@@ -8,7 +8,9 @@ const ownUrl = ENDPOINTS.ownPosts
 const posts = createSlice({
     name: 'posts',
     initialState: {
+        single: {},
         list: [],
+        skip: 0,
         loading: false
     },
     reducers: {
@@ -16,7 +18,10 @@ const posts = createSlice({
             state.loading = true
         },
         received: (state, action) => {
-            state.list.push(...action.payload.data)
+            const posts = action.payload.data
+
+            state.list.push(...posts)
+            state.skip += posts.length
             state.loading = false
         },
         requestFailed: (state) => {
@@ -24,13 +29,11 @@ const posts = createSlice({
         },
 
         added: (state, action) => {
-            state.list = [action.payload.data]
+            state.single = action.payload.data
             state.loading = false
         },
 
-        cleared: (state) => {
-            return posts.getInitialState()
-        }
+        cleared: () => posts.getInitialState()
     }
 })
 

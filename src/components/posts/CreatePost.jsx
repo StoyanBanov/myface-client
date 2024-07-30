@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { addPost } from "../../store/post/posts"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import FormInput from "../helpers/components/form/FormInput"
 import FormTemplate from "../helpers/components/form/FormTemplate"
@@ -18,6 +18,13 @@ const CreatePost = () => {
     const dispatch = useDispatch()
 
     const navigate = useNavigate()
+
+    const { single, loading } = useSelector(state => state.entities.posts)
+
+    useEffect(() => {
+        if (!loading && single._id)
+            navigate('/posts/' + single._id)
+    }, [dispatch, navigate, loading, single])
 
     const onValueChange = ({ target: { name, value } }) => {
         setValues(state => ({ ...state, [name]: value }))
@@ -48,7 +55,6 @@ const CreatePost = () => {
 
         if (!hasErrors(errors) && (values.text || values.images)) {
             dispatch(addPost(values))
-            navigate('/posts/:id')
         }
     }
 
