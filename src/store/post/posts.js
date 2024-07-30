@@ -3,6 +3,7 @@ import { apiCallBegan } from "../api"
 import { ENDPOINTS } from "../../constants"
 
 const url = ENDPOINTS.posts
+const ownUrl = ENDPOINTS.ownPosts
 
 const posts = createSlice({
     name: 'posts',
@@ -45,9 +46,17 @@ const {
 export default posts.reducer
 
 // Action Creators
-export const getPosts = (query) =>
+export const getPosts = (search) =>
     apiCallBegan({
-        url: `${url}?${query}`,
+        url: `${url}${search ? `?search=${search}` : ''}`,
+        onStart: requested.type,
+        onSuccess: received.type,
+        onError: requestFailed.type
+    })
+
+export const getOwnPosts = () =>
+    apiCallBegan({
+        url: ownUrl,
         onStart: requested.type,
         onSuccess: received.type,
         onError: requestFailed.type

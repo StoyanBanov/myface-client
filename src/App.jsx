@@ -36,6 +36,7 @@ import SearchUsers from './components/search/SearchUsers';
 import SearchPosts from './components/search/SearchPosts';
 import Posts from './components/profile/Posts';
 import FriendRequests from './components/profile/FriendRequests';
+import ProfileInfo from './components/profile/ProfileInfo';
 
 function App() {
     const dispatch = useDispatch()
@@ -78,6 +79,8 @@ function App() {
                                     <Route path='/' element={<Home />} />
 
                                     <Route path='/profile' element={<CurrentUserProfile />}>
+                                        <Route index={true} element={<ProfileInfo />} />
+                                        <Route path='overview' element={<ProfileInfo />} />
                                         <Route path='friends' element={<Friends />} />
                                         <Route path='requests' element={<FriendRequests />} />
                                         <Route path='posts' element={<Posts />} />

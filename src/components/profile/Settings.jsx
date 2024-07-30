@@ -3,7 +3,7 @@ import FormInput from "../helpers/components/form/FormInput"
 import FormTemplate from "../helpers/components/form/FormTemplate"
 import { useDispatch } from "react-redux"
 import { changePassword, del } from "../../store/auth"
-import { getUserErrors, hasErrors, validateUserField } from "../../util/validation"
+import { getUserErrors, hasErrors, hasUserFieldError } from "../../util/validation"
 
 const Settings = ({ user }) => {
     const [value, setValue] = useState('')
@@ -19,7 +19,7 @@ const Settings = ({ user }) => {
     const onBlur = ({ target: { name, value } }) => {
         setErrors(state => ({
             ...state, [name]: {
-                value: validateUserField(name, value),
+                value: hasUserFieldError(name, value),
                 hints: [...state[name].hints]
             }
         }))

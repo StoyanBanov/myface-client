@@ -1,26 +1,14 @@
-import { useDispatch } from "react-redux"
-import { useSearchParams } from "react-router-dom"
-import { clearUsers, getUsers } from "../../store/users"
-import { useEffect } from "react"
+import { useOutletContext } from "react-router-dom"
+import { getUsers } from "../../store/users"
 
 import UsersList from "../helpers/components/users/UsersList"
 
 
 const SearchUsers = () => {
-    const dispatch = useDispatch()
-
-    const [searchParams] = useSearchParams()
-
-    useEffect(() => {
-        dispatch(getUsers(searchParams.get('search')))
-
-        return () => {
-            dispatch(clearUsers())
-        }
-    }, [dispatch, searchParams])
+    const { search } = useOutletContext()
 
     return (
-        <UsersList />
+        <UsersList getUsersActionCreator={() => getUsers(search)} />
     )
 }
 

@@ -1,7 +1,7 @@
 import { ALLOWED_FILE_TYPES } from '../../../../constants'
 import style from './style.module.css'
 
-const FormInput = ({ id, name, label, type, error, value = '', onValueChange, onBlur, placeholder, required, checked, multiple }) => {
+const FormInput = ({ id, name, label, type = 'text', error, value = '', onValueChange, onBlur, placeholder, required, checked, multiple }) => {
     return (
         <>
             <label className={style.inputLabel} htmlFor={id}>

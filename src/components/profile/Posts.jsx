@@ -1,8 +1,9 @@
-const Posts = ({ posts }) => {
-    return (
-        <ul>
+import { getOwnPosts } from "../../store/post/posts"
+import PostList from "../posts/PostList"
 
-        </ul>
+const Posts = () => {
+    return (
+        <PostList getPostsActionCreator={getOwnPosts} />
     )
 }
 

@@ -1,9 +1,21 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 import style from './style.module.css'
 import UserCard from "./UserCard"
+import { useEffect } from "react"
+import { clearUsers } from "../../../../store/users"
 
-const UsersList = () => {
+const UsersList = ({ getUsersActionCreator }) => {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getUsersActionCreator())
+
+        return () => {
+            dispatch(clearUsers())
+        }
+    }, [dispatch, getUsersActionCreator])
+
     const users = useSelector(state => state.entities.users.list)
 
     return (

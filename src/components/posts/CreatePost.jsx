@@ -2,11 +2,18 @@ import { useState } from "react"
 import { addPost } from "../../store/post/posts"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import FormInput from "../helpers/components/form/FormInput"
+import FormTemplate from "../helpers/components/form/FormTemplate"
+import { getPostErrors, hasErrors, hasPostFieldError } from "../../util/validation"
 
 const CreatePost = () => {
     const [values, setValues] = useState({
-        text: ''
+        text: '',
+        images: [],
+        visibility: 'friends'
     })
+
+    const [errors, setErrors] = useState(getPostErrors())
 
     const dispatch = useDispatch()
 
@@ -16,22 +23,51 @@ const CreatePost = () => {
         setValues(state => ({ ...state, [name]: value }))
     }
 
+    const onBlur = ({ target: { name, value } }) => {
+        setErrors(state => ({
+            ...state, [name]: {
+                value: hasPostFieldError(name, value),
+                hints: [...state[name].hints]
+            }
+        }))
+    }
+
+    const onImage = ({ target: { name, files } }) => {
+        setValues(state => ({ ...state, [name]: [...files] }))
+
+        setErrors(state => ({
+            ...state, [name]: {
+                value: hasPostFieldError(name, files),
+                hints: [...state[name].hints]
+            }
+        }))
+    }
+
     const onSubmit = e => {
         e.preventDefault()
 
-        dispatch(addPost(values))
-
-        navigate('/posts/:id')
+        if (!hasErrors(errors) && (values.text || values.images)) {
+            dispatch(addPost(values))
+            navigate('/posts/:id')
+        }
     }
 
     return (
-        <form onSubmit={onSubmit}>
-            <label htmlFor="text">
-                <input id="text" name="text" value={values.text} onChange={onValueChange} />
-            </label>
+        <FormTemplate title={'Create Post'} btnTxt={'Post'} onSubmit={onSubmit}>
+            <FormInput id={'text'} name={'text'} label={'Text'} value={values.text} error={errors.text} onValueChange={onValueChange} onBlur={onBlur} />
 
-            <button>Post</button>
-        </form>
+            <FormInput type={'file'} id={'images'} name={'images'} label={'Images'} multiple={true} value={values.text} error={errors.images} onValueChange={onImage} />
+
+            <label htmlFor="visibility">
+                <span>Visibility</span>
+
+                <select id="visibility" name="visibility" value={values.visibility} onChange={onValueChange}>
+                    <option value={'owner'}>Only me</option>
+                    <option value={'friends'}>Friends</option>
+                    <option value={'all'}>Everyone</option>
+                </select>
+            </label>
+        </FormTemplate>
     )
 }
 

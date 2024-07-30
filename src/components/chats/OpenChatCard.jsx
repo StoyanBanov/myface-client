@@ -9,7 +9,7 @@ import { addMessage, getMessages, removeMessages } from "../../store/chat/messag
 import style from './style.module.css'
 import { ALLOWED_FILE_TYPES } from "../../constants"
 import FormInput from "../helpers/components/form/FormInput"
-import { hasErrors } from "../../util/validation"
+import { hasErrors, hasFileError } from "../../util/validation"
 
 const OpenChatCard = ({ chat, loading }) => {
     const initialValues = {
@@ -33,9 +33,9 @@ const OpenChatCard = ({ chat, loading }) => {
     }
 
     const onFileChange = ({ target: { name, files } }) => {
-        setValues(state => ({ ...state, [name]: [...state[name], ...files] }))
+        setValues(state => ({ ...state, [name]: [...files] }))
 
-        setErrors(state => ({ ...state, name: [...files].some(f => !ALLOWED_FILE_TYPES.includes(f.type)) }))
+        setErrors(state => ({ ...state, name: [...files].some(f => hasFileError(f)) }))
     }
 
     const onMessageSubmit = e => {

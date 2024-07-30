@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 import FormInput from "../helpers/components/form/FormInput"
 
 import FormTemplate from "../helpers/components/form/FormTemplate"
-import { getUserErrors, hasErrors, validateUserField } from "../../util/validation"
+import { getUserErrors, hasErrors, hasUserFieldError } from "../../util/validation"
 
 const Register = () => {
     const [values, setValues] = useState({
@@ -29,7 +29,7 @@ const Register = () => {
     const onBlur = ({ target: { name, value } }) => {
         setErrors(state => ({
             ...state, [name]: {
-                value: validateUserField(name, value, values),
+                value: hasUserFieldError(name, value, values),
                 hints: [...state[name].hints]
             }
         }))

@@ -1,10 +1,16 @@
-import { PASSWORD_REGEX } from "../constants"
+import { ALLOWED_FILE_TYPES, MAX_IMAGE_SIZE, PASSWORD_REGEX } from "../constants"
 
 export const hasErrors = (errors) => {
     return Object.values(errors).some(e => e.value)
 }
 
-export const validateUserField = (name, value, values) => {
+export const hasFileError = (file) => file && (file.size > MAX_IMAGE_SIZE || !ALLOWED_FILE_TYPES.includes(file.type))
+
+const getFileError = () => ({ value: false, hints: ['No larger than 4MB', `Supported formats: ${ALLOWED_FILE_TYPES.join(', ')}`] })
+
+// User validation
+
+export const hasUserFieldError = (name, value, values) => {
     switch (name) {
         case 'email':
             if (value.length > 30)
@@ -35,6 +41,7 @@ export const validateUserField = (name, value, values) => {
 
 export const getUserErrors = () => {
     return {
+        profilePic: getFileError(),
         email: { value: false, hints: ['No longer than 30 characters'] },
         fname: { value: false, hints: ['At least 2 characters long', 'No longer than 20 characters'] },
         lname: { value: false, hints: ['At least 2 characters long', 'No longer than 20 characters'] },
@@ -42,5 +49,30 @@ export const getUserErrors = () => {
         rePassword: { value: false, hints: [] },
         dob: { value: false, hints: ['At least 12 years old'] },
         gender: { value: false, hints: [] }
+    }
+}
+
+
+// Post validation
+
+export const hasPostFieldError = (name, value) => {
+    switch (name) {
+        case 'text':
+            if (value.length > 2000)
+                return true
+            return false
+        case 'images':
+            if ([...value].some(i => hasFileError(i)))
+                return true
+            return false
+        default:
+            return false
+    }
+}
+
+export const getPostErrors = () => {
+    return {
+        images: getFileError(),
+        text: { value: false, hints: ['No longer than 2000 characters'] }
     }
 }

@@ -48,6 +48,7 @@ const Nav = () => {
                 ? <>
                     <div className={style.centerNav}>
                         <NavLink className={ActiveClassNameHandler} to={'/'}>Home</NavLink>
+                        <NavLink className={ActiveClassNameHandler} to={'/create/post'}>Create</NavLink>
                     </div>
 
                     <div className={style.rightNav}>

@@ -10,6 +10,7 @@ const Profile = ({ user }) => {
             <ProfilePic user={user} />
 
             <InnerNav links={[
+                { to: '/profile/overview', text: 'Overview' },
                 { to: '/profile/friends', text: 'Friends' },
                 { to: '/profile/requests', text: 'Requests' },
                 { to: '/profile/posts', text: 'Posts' },

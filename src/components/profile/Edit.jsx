@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 import FormInput from "../helpers/components/form/FormInput"
 import FormTemplate from "../helpers/components/form/FormTemplate"
-import { getUserErrors, hasErrors, validateUserField } from "../../util/validation"
+import { getUserErrors, hasErrors, hasFileError, hasUserFieldError } from "../../util/validation"
 import { useOutletContext } from "react-router-dom"
 import { ALLOWED_FILE_TYPES } from "../../constants"
 import { useDispatch } from "react-redux"
@@ -17,10 +17,7 @@ const Edit = () => {
         gender: '',
     })
 
-    const [errors, setErrors] = useState({
-        ...getUserErrors(),
-        profilePic: { value: false, hints: ['No larger than 4MB', `Supported formats: ${ALLOWED_FILE_TYPES.join(', ')}`] }
-    })
+    const [errors, setErrors] = useState(getUserErrors())
 
     const { user } = useOutletContext()
 
@@ -44,7 +41,7 @@ const Edit = () => {
     const onBlur = ({ target: { name, value } }) => {
         setErrors(state => ({
             ...state, [name]: {
-                value: validateUserField(name, value, values),
+                value: hasUserFieldError(name, value, values),
                 hints: [...state[name].hints]
             }
         }))
@@ -52,20 +49,12 @@ const Edit = () => {
 
     const onImage = ({ target: { name, files } }) => {
         let value = files[0]
-        let hasError
-
-        if (!value) {
-            value = ''
-            hasError = false
-        } else {
-            hasError = value.size > 4194304 || !ALLOWED_FILE_TYPES.includes(value.type)
-        }
 
         setValues(state => ({ ...state, [name]: value }))
 
         setErrors(state => ({
             ...state, [name]: {
-                value: hasError,
+                value: hasFileError(value),
                 hints: [...state[name].hints]
             }
         }))

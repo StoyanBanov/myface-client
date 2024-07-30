@@ -1,13 +1,25 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import PostCard from "./PostCard"
+import { useEffect } from "react"
+import { clearPosts } from "../../store/post/posts"
 
-const PostList = () => {
+const PostList = ({ getPostsActionCreator }) => {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getPostsActionCreator())
+
+        return () => {
+            dispatch(clearPosts())
+        }
+    }, [dispatch, getPostsActionCreator])
+
     const posts = useSelector(state => state.entities.posts.list)
 
     return (
-        <>
-            {posts.map(p => <PostCard key={p._id} post={p} />)}
-        </>
+        <ul>
+            {posts.map(p => <li key={p._id}><PostCard post={p} /></li>)}
+        </ul>
     )
 }
 

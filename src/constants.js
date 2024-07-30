@@ -17,7 +17,8 @@ export const ENDPOINTS = {
     chats: '/chats',
     messages: '/chats/messages',
 
-    posts: '/posts'
+    posts: '/posts',
+    ownPosts: '/posts/own'
 }
 
 export const MAX_MESSAGES_SKIP = 10
@@ -31,6 +32,7 @@ export const CDN_DEFAULT_AVATAR_NAME_FEMALE = 'default-no-profile-female_enfnx0'
 export const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
 export const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/jfif']
+export const MAX_IMAGE_SIZE = 4194304
 
 export const FRIENDSHIP_STATUS_YOU = 'You'
 export const FRIENDSHIP_STATUS_ACCEPT = 'Accept'

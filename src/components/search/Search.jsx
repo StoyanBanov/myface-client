@@ -1,16 +1,22 @@
-import { Outlet } from "react-router-dom"
+import { Outlet, useSearchParams } from "react-router-dom"
 
 import InnerNav from "../helpers/components/innerNav/InnerNav"
 
 const Search = () => {
+    const [searchParams] = useSearchParams()
+
+    const search = searchParams.get('search')
+
+    const linkQuery = `?search=${search}` || ''
+
     return (
         <>
             <InnerNav links={[
-                { to: '/search/users', text: 'Users' },
-                { to: '/search/posts', text: 'Posts' }
+                { to: '/search/users' + linkQuery, text: 'Users' },
+                { to: '/search/posts' + linkQuery, text: 'Posts' }
             ]} />
 
-            <Outlet />
+            <Outlet context={{ search }} />
         </>
     )
 }
