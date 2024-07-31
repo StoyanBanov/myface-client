@@ -8,7 +8,6 @@ const ownUrl = ENDPOINTS.ownPosts
 const posts = createSlice({
     name: 'posts',
     initialState: {
-        single: {},
         list: [],
         skip: 0,
         loading: false
@@ -29,7 +28,8 @@ const posts = createSlice({
         },
 
         added: (state, action) => {
-            state.single = action.payload.data
+            state.list = [action.payload.data]
+            state.skip = 1
             state.loading = false
         },
 
@@ -61,13 +61,26 @@ export const getPosts = (search) =>
         )
     }
 
-export const getOwnPosts = () =>
+export const getPostsById = (id) =>
     apiCallBegan({
-        url: ownUrl,
+        url: `${url}/${id}`,
         onStart: requested.type,
-        onSuccess: received.type,
+        onSuccess: added.type,
         onError: requestFailed.type
     })
+
+
+export const getOwnPosts = () =>
+    (dispatch, getState) => {
+        dispatch(
+            apiCallBegan({
+                url: `${ownUrl}?skip=${getState().entities.posts.skip}`,
+                onStart: requested.type,
+                onSuccess: received.type,
+                onError: requestFailed.type
+            })
+        )
+    }
 
 export const addPost = (body) =>
     apiCallBegan({

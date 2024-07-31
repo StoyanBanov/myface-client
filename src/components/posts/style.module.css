@@ -1,6 +1,6 @@
 .postCardContainer {
-    --container-width: 40vw;
-    --container-margin: 20px;
+    --container-width: 70vh;
+    --container-margin: 10px;
 
     width: var(--container-width);
     background-color: white;
@@ -8,20 +8,20 @@
     display: flex;
     flex-direction: column;
     align-items: left;
-    margin: var(--container-margin);
-    padding: 10px;
+    margin: 20px;
 
     box-shadow: 0px 2px 3px gray;
 }
 
 .postCardContainer p {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: var(--container-margin);
 }
 
 .postCardHeader {
     display: flex;
     align-items: center;
+    margin: var(--container-margin);
+    margin-bottom: 0;
 }
 
 .postCardHeaderRight {
@@ -39,16 +39,40 @@
 .postImgUl {
     display: flex;
     flex-wrap: wrap;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
 }
 
 .postImgUl li {
     display: flex;
 }
 
-.postImg {
-    max-width: calc((var(--container-width) * 0.5) - var(--container-margin));
-    max-height: calc((var(--container-width) * 0.5) - var(--container-margin));
+.postImg,
+.postSingleImg {
     object-fit: contain;
+}
 
-    border: 1px solid black;
+.postImg {
+    width: calc((var(--container-width) * 0.5));
+    max-height: calc((var(--container-width) * 0.5));
+}
+
+.postSingleImg {
+    width: calc(var(--container-width));
+    max-height: calc(var(--container-width));
+}
+
+
+.postCardFooter {
+    display: flex;
+    justify-content: space-between;
+    margin: var(--container-margin);
+}
+
+@media screen and (max-width: 900px) {
+    .postCardContainer {
+        --container-width: 100%;
+        margin: 0;
+        margin-bottom: 5px;
+    }
 }

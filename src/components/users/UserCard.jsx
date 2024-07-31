@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
-import { acceptFriendship, removeFriendship, requestFriendship } from "../../../../store/users";
-import { useStatus } from "../../customHooks/useStatus"
-import ProfilePic from "../images/ProfilePic";
-import { FRIENDSHIP_STATUS_ACCEPT, FRIENDSHIP_STATUS_ADD_FRIEND, FRIENDSHIP_STATUS_FRIENDS, FRIENDSHIP_STATUS_REQUESTED, FRIENDSHIP_STATUS_YOU } from "../../../../constants";
+import { acceptFriendship, removeFriendship, requestFriendship } from "../../store/users";
+import { useStatus } from "../helpers/customHooks/useStatus"
+import ProfilePic from "../helpers/components/images/ProfilePic";
+import { FRIENDSHIP_STATUS_ACCEPT, FRIENDSHIP_STATUS_ADD_FRIEND, FRIENDSHIP_STATUS_FRIENDS, FRIENDSHIP_STATUS_REQUESTED, FRIENDSHIP_STATUS_YOU } from "../../constants";
 
 import style from './style.module.css'
 

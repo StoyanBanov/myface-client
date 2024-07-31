@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
-import { clearUsers } from "../../../../store/users"
+import { clearUsers } from "../../store/users"
 import UserCard from "./UserCard"
 
 import style from './style.module.css'
-import { useScroll } from "../../customHooks/useScroll"
+import { useScroll } from "../helpers/customHooks/useScroll"
 
 
 const UsersList = ({ getUsersActionCreator }) => {
