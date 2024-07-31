@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 import { clearUsers } from "../../../../store/users"
 import UserCard from "./UserCard"
 
 import style from './style.module.css'
+import { useScroll } from "../../customHooks/useScroll"
 
 
 const UsersList = ({ getUsersActionCreator }) => {
@@ -19,18 +20,10 @@ const UsersList = ({ getUsersActionCreator }) => {
 
     const { list, loading } = useSelector(state => state.entities.users)
 
-    const usersUlRef = useRef()
-
-    const onScroll = () => {
-        const ul = usersUlRef.current
-
-        if (!loading && ul.scrollTop == ul.scrollHeight - ul.clientHeight) {
-            dispatch(getUsersActionCreator())
-        }
-    }
+    useScroll(loading, getUsersActionCreator)
 
     return (
-        <ul ref={usersUlRef} onScroll={onScroll} className={style.usersUl}>
+        <ul className={style.usersUl}>
             {list.map(u => <li key={u._id}><UserCard user={u} /></li>)}
         </ul>
     )

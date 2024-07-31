@@ -7,6 +7,8 @@ import FormTemplate from "../helpers/components/form/FormTemplate"
 import { getPostErrors, hasErrors, hasPostFieldError } from "../../util/validation"
 
 const CreatePost = () => {
+    const [hasSubmitted, setHasSubmitted] = useState(false)
+
     const [values, setValues] = useState({
         text: '',
         images: [],
@@ -22,9 +24,9 @@ const CreatePost = () => {
     const { single, loading } = useSelector(state => state.entities.posts)
 
     useEffect(() => {
-        if (!loading && single._id)
+        if (hasSubmitted && !loading && single._id)
             navigate('/posts/' + single._id)
-    }, [dispatch, navigate, loading, single])
+    }, [dispatch, navigate, hasSubmitted, loading, single])
 
     const onValueChange = ({ target: { name, value } }) => {
         setValues(state => ({ ...state, [name]: value }))
@@ -55,6 +57,8 @@ const CreatePost = () => {
 
         if (!hasErrors(errors) && (values.text || values.images)) {
             dispatch(addPost(values))
+
+            setHasSubmitted(true)
         }
     }
 

@@ -1,6 +1,6 @@
 .postCardContainer {
     --container-width: 40vw;
-    --container-margin: 10px;
+    --container-margin: 20px;
 
     width: var(--container-width);
     background-color: white;

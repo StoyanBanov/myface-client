@@ -1,10 +1,13 @@
 import { useDispatch, useSelector } from "react-redux"
 import PostCard from "./PostCard"
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 import { clearPosts } from "../../store/post/posts"
+import { useScroll } from "../helpers/customHooks/useScroll"
 
 const PostList = ({ getPostsActionCreator }) => {
     const dispatch = useDispatch()
+
+    const { list, loading } = useSelector(state => state.entities.posts)
 
     useEffect(() => {
         dispatch(getPostsActionCreator())
@@ -14,20 +17,10 @@ const PostList = ({ getPostsActionCreator }) => {
         }
     }, [dispatch, getPostsActionCreator])
 
-    const { list, loading } = useSelector(state => state.entities.posts)
-
-    const postsUlRef = useRef()
-
-    const onScroll = () => {
-        const ul = postsUlRef.current
-
-        if (!loading && ul.scrollTop == ul.scrollHeight - ul.clientHeight) {
-            dispatch(getPostsActionCreator())
-        }
-    }
+    useScroll(loading, getPostsActionCreator)
 
     return (
-        <ul ref={postsUlRef} onScroll={onScroll}>
+        <ul>
             {list.map(p => <li key={p._id}><PostCard post={p} /></li>)}
         </ul>
     )

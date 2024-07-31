@@ -50,12 +50,16 @@ export default posts.reducer
 
 // Action Creators
 export const getPosts = (search) =>
-    apiCallBegan({
-        url: `${url}${search ? `?search=${search}` : ''}`,
-        onStart: requested.type,
-        onSuccess: received.type,
-        onError: requestFailed.type
-    })
+    (dispatch, getState) => {
+        dispatch(
+            apiCallBegan({
+                url: `${url}?skip=${getState().entities.posts.skip}${search ? `&search=${search}` : ''}`,
+                onStart: requested.type,
+                onSuccess: received.type,
+                onError: requestFailed.type
+            })
+        )
+    }
 
 export const getOwnPosts = () =>
     apiCallBegan({
