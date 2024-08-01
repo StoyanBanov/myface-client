@@ -21,12 +21,12 @@ const CreatePost = () => {
 
     const navigate = useNavigate()
 
-    const { single, loading } = useSelector(state => state.entities.posts)
+    const { list, loading } = useSelector(state => state.entities.posts)
 
     useEffect(() => {
-        if (hasSubmitted && !loading && single._id)
-            navigate('/posts/' + single._id)
-    }, [dispatch, navigate, hasSubmitted, loading, single])
+        if (hasSubmitted && !loading)
+            navigate('/posts/' + list[0]._id)
+    }, [dispatch, navigate, hasSubmitted, loading, list])
 
     const onValueChange = ({ target: { name, value } }) => {
         setValues(state => ({ ...state, [name]: value }))

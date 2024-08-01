@@ -37,6 +37,8 @@ import SearchPosts from './components/search/SearchPosts';
 import Posts from './components/profile/Posts';
 import FriendRequests from './components/profile/FriendRequests';
 import ProfileInfo from './components/profile/ProfileInfo';
+import UserProfile from './components/profile/UserProfile';
+import EditPost from './components/posts/EditPost';
 
 function App() {
     const dispatch = useDispatch()
@@ -88,6 +90,10 @@ function App() {
                                         <Route path='settings' element={<Settings />} />
                                     </Route>
 
+                                    <Route path='/users/:id' element={<UserProfile />}>
+                                        <Route index={true} element={<ProfileInfo />} />
+                                    </Route>
+
                                     <Route path='/search' element={<Search />} >
                                         <Route path='users' element={<SearchUsers />} />
                                         <Route path='posts' element={<SearchPosts />} />
@@ -96,6 +102,10 @@ function App() {
                                     <Route path='/create'>
                                         <Route index={true} element={<CreatePost />} />
                                         <Route path="post" element={<CreatePost />} />
+                                    </Route>
+
+                                    <Route path='/edit'>
+                                        <Route path="post/:id" element={<EditPost />} />
                                     </Route>
 
                                     <Route path='/logout' element={<Logout />} />

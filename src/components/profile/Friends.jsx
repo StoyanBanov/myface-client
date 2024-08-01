@@ -1,5 +1,5 @@
 import { getFriends } from "../../store/users"
-import UsersList from "../helpers/components/users/UsersList"
+import UsersList from "../users/UsersList"
 
 const Friends = () => {
     return (

@@ -1,12 +1,19 @@
 import { CDN_AVATAR_ADDRESS, CDN_DEFAULT_AVATAR_NAME_FEMALE, CDN_DEFAULT_AVATAR_NAME_MALE } from "../../../../constants"
+import { useNavigateToUser } from "../../customHooks/useNavigateToUser"
 
-const ProfilePic = ({ user, className = '' }) => {
+const ProfilePic = ({ user, className = '', onClick }) => {
     return (
-        <img className={className} src={`${CDN_AVATAR_ADDRESS}/${user.profilePic
-            || (user.gender == 'male'
-                ? CDN_DEFAULT_AVATAR_NAME_MALE
-                : CDN_DEFAULT_AVATAR_NAME_FEMALE
-            )}`} alt={user.fname} />
+        <img
+            className={className}
+
+            src={`${CDN_AVATAR_ADDRESS}/${user.profilePic
+                || (user.gender == 'male'
+                    ? CDN_DEFAULT_AVATAR_NAME_MALE
+                    : CDN_DEFAULT_AVATAR_NAME_FEMALE
+                )}`} alt={user.fname}
+
+            onClick={onClick || useNavigateToUser(user._id)}
+        />
     )
 }
 

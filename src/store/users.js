@@ -29,6 +29,11 @@ const users = createSlice({
             state.skip += users.length
             state.loading = false
         },
+        added: (state, action) => {
+            state.list.push(action.payload.data)
+            state.skip = 1
+            state.loading = false
+        },
         requestFailed: (state) => {
             state.loading = false
         },
@@ -73,6 +78,7 @@ const {
 
     requested,
     received,
+    added,
     requestFailed,
 
     friendRequested,
@@ -104,6 +110,14 @@ export const getUsers = (search) =>
             })
         )
     }
+
+export const getUserById = (id) =>
+    apiCallBegan({
+        url: `${urlUsers}/${id}`,
+        onStart: requested.type,
+        onSuccess: added.type,
+        onError: requestFailed.type
+    })
 
 export const clearUsers = () =>
     cleared()

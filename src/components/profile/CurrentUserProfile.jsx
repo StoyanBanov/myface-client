@@ -5,7 +5,9 @@ const CurrentUserProfile = () => {
     const user = useSelector(state => state.entities.users.current)
 
     return (
-        <Profile user={user} />
+        <Profile
+            user={user}
+        />
     )
 }
 

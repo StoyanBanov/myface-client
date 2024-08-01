@@ -1,5 +1,6 @@
 import { getTimeFromString } from "../../util/helpers"
 import ProfilePic from "../helpers/components/images/ProfilePic"
+import UserFullName from "../users/UserFullName"
 
 import style from './style.module.css'
 
@@ -9,7 +10,7 @@ const PostHeader = ({ post }) => {
             <ProfilePic user={post.user} className={style.profilePic} />
 
             <div className={style.postCardHeaderRight}>
-                <h3>{post.user.fname} {post.user.lname}</h3>
+                <UserFullName user={post.user} />
                 <span>{getTimeFromString(post?.createdAt)}</span>
             </div>
         </div>

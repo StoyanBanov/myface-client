@@ -1,11 +1,18 @@
 import { useOutletContext } from "react-router-dom"
-import UserProfile from "../helpers/components/users/UserProfile"
 
 const ProfileInfo = () => {
     const { user } = useOutletContext()
 
     return (
-        <UserProfile user={user} />
+        <div>
+            <p>full name: {user.fname} {user.lname}</p>
+
+            <p>gender: {user.gender || 'unknown'}</p>
+
+            <p>date of birth: {user.gender || 'unknown'}</p>
+
+            <p>email: {user.email}</p>
+        </div>
     )
 }
 

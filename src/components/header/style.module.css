@@ -11,6 +11,15 @@
     height: 30px;
 }
 
+.mainNav form {
+    z-index: 5;
+    margin: 4px;
+}
+
+.mainNav form input {
+    border-radius: 10px;
+}
+
 .mainNav>div {
     position: absolute;
     width: 100%;

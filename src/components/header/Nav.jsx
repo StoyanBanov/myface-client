@@ -39,7 +39,7 @@ const Nav = () => {
                 {/* logo */}
 
                 {isAuth &&
-                    <form style={{ zIndex: 5 }} onSubmit={onSearchSubmit}>
+                    <form onSubmit={onSearchSubmit}>
                         <input type="text" name="search" value={search} onChange={onSearchChange} />
                     </form>
                 }
