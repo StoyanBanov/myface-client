@@ -36,7 +36,7 @@ const chats = createSlice({
                     loading: false
                 }
 
-                if (action.payload.windowWidth / 400 < state.open.length) {
+                if (action.payload.windowWidth / 400 > state.open.length + 1) {
                     state.open.push(newChat)
                 } else {
                     state.open.pop()
