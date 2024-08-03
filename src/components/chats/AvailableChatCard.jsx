@@ -5,7 +5,7 @@ const AvailableChatCard = ({ chat, closeChats }) => {
     const dispatch = useDispatch()
 
     const onOpenChatClick = () => {
-        dispatch(openChat(chat._id))
+        dispatch(openChat(chat._id, window.innerWidth))
 
         closeChats()
     }

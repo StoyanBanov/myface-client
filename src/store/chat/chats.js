@@ -30,11 +30,18 @@ const chats = createSlice({
         },
 
         openAdded: (state, action) => {
-            if (!state.open.find(c => c.chat._id == action.payload)) {
-                state.open.push({
-                    chat: state.available.list.find(c => c._id == action.payload),
+            if (!state.open.find(c => c.chat._id == action.payload.chat)) {
+                const newChat = {
+                    chat: state.available.list.find(c => c._id == action.payload.chat),
                     loading: false
-                })
+                }
+
+                if (action.payload.windowWidth / 400 < state.open.length) {
+                    state.open.push(newChat)
+                } else {
+                    state.open.pop()
+                    state.open.unshift(newChat)
+                }
             }
         },
         openRemoved: (state, action) => {
@@ -86,8 +93,8 @@ const {
 
 // Action creators
 
-export const openChat = (chat) =>
-    openAdded(chat)
+export const openChat = (chat, windowWidth) =>
+    openAdded({ chat, windowWidth })
 
 export const getChat = (chat) =>
     apiCallBegan({

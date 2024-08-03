@@ -1,7 +1,5 @@
-import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
-import { clearPosts, getPostsById } from "../../store/post/posts"
+import { useNavigate } from "react-router-dom"
+import { clearPosts, deletePostById, getPostsById } from "../../store/post/posts"
 import PostContent from "./PostContent"
 import PostFooter from "./PostFooter"
 import { useStatus } from "../helpers/customHooks/useStatus"
@@ -9,11 +7,34 @@ import { useStatus } from "../helpers/customHooks/useStatus"
 import style from './style.module.css'
 import PostHeader from "./PostHeader"
 import { useSingleItemFromStore } from "../helpers/customHooks/useSingleItemFromStore"
+import { useDispatch, useSelector } from "react-redux"
+import { useEffect } from "react"
 
 const PostDetails = () => {
+    const navigate = useNavigate()
+
+    const dispatch = useDispatch()
+
+    const { lastDeletedId } = useSelector(state => state.entities.posts)
+
     const post = useSingleItemFromStore(getPostsById, clearPosts, 'posts')
 
+    useEffect(() => {
+        if (lastDeletedId == post?._id)
+            navigate('/profile')
+    }, [navigate, lastDeletedId, post])
+
     const { data } = useStatus()
+
+    const onEditClick = () => {
+        navigate('/edit/post/' + post._id)
+    }
+
+    const onDeleteClick = () => {
+        if (!confirm('Do you really want to delete this post?')) return
+
+        dispatch(deletePostById(post._id))
+    }
 
     return (
         <div className={style.postCardContainer}>
@@ -28,11 +49,15 @@ const PostDetails = () => {
 
                         <p>Visibility: {post.visibility}</p>
 
-                        {data._id == post?.user?._id
+                        {data._id == post.user?._id
                             ? <div className={style.postCardFooter}>
-                                <button>Edit</button>
+                                <span>Likes: {post.likesCount}</span>
 
-                                <button>Delete</button>
+                                <div>
+                                    <button onClick={onEditClick}>Edit</button>
+
+                                    <button onClick={onDeleteClick}>Delete</button>
+                                </div>
                             </div>
                             : <PostFooter post={post} />
                         }

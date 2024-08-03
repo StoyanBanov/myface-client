@@ -4,7 +4,6 @@ import FormInput from "../helpers/components/form/FormInput"
 import FormTemplate from "../helpers/components/form/FormTemplate"
 import { getUserErrors, hasErrors, hasFileError, hasUserFieldError } from "../../util/validation"
 import { useOutletContext } from "react-router-dom"
-import { ALLOWED_FILE_TYPES } from "../../constants"
 import { useDispatch } from "react-redux"
 import { edit } from "../../store/auth"
 

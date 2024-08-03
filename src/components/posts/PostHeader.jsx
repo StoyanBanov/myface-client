@@ -1,4 +1,4 @@
-import { getTimeFromString } from "../../util/helpers"
+import { getDateAndTime } from "../../util/helpers"
 import ProfilePic from "../helpers/components/images/ProfilePic"
 import UserFullName from "../users/UserFullName"
 
@@ -11,7 +11,7 @@ const PostHeader = ({ post }) => {
 
             <div className={style.postCardHeaderRight}>
                 <UserFullName user={post.user} />
-                <span>{getTimeFromString(post?.createdAt)}</span>
+                <span>{getDateAndTime(post.createdAt)}</span>
             </div>
         </div>
     )

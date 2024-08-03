@@ -1,7 +1,4 @@
 .postCardContainer {
-    --container-width: 70vh;
-    --container-margin: 10px;
-
     width: var(--container-width);
     background-color: white;
 
@@ -60,6 +57,19 @@
 .postSingleImg {
     width: calc(var(--container-width));
     max-height: calc(var(--container-width));
+}
+
+
+.editImagesContainer {
+    position: relative;
+}
+
+.editImagesContainer span {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border: 1px solid black;
+    display: flex;
 }
 
 

@@ -5,6 +5,7 @@ import ProfilePic from "../helpers/components/images/ProfilePic";
 import { FRIENDSHIP_STATUS_ACCEPT, FRIENDSHIP_STATUS_ADD_FRIEND, FRIENDSHIP_STATUS_FRIENDS, FRIENDSHIP_STATUS_REQUESTED, FRIENDSHIP_STATUS_YOU } from "../../constants";
 
 import style from './style.module.css'
+import UserFullName from "./UserFullName";
 
 const UserCard = ({ user }) => {
     const { data } = useStatus()
@@ -38,7 +39,7 @@ const UserCard = ({ user }) => {
         <div className={style.userCardContainer}>
             <ProfilePic user={user} className={style.profilePic} />
 
-            <h3>{user.fname} {user.lname}</h3>
+            <UserFullName user={user} />
 
             {friendshipStatus == FRIENDSHIP_STATUS_YOU
                 ? <span> {friendshipStatus} </span>

@@ -6,10 +6,13 @@ import OpenMessages from "./OpenMessages"
 import { removeChat } from "../../store/chat/chats"
 import { addMessage, getMessages, removeMessages } from "../../store/chat/messages"
 
-import style from './style.module.css'
+
 import { ALLOWED_FILE_TYPES } from "../../constants"
 import FormInput from "../helpers/components/form/FormInput"
 import { hasErrors, hasFileError } from "../../util/validation"
+import CloseSvg from "../helpers/components/svgs/CloseSvg"
+
+import style from './style.module.css'
 
 const OpenChatCard = ({ chat, loading }) => {
     const initialValues = {
@@ -60,10 +63,7 @@ const OpenChatCard = ({ chat, loading }) => {
                 <h3>{chat.title}</h3>
 
                 <span onClick={onCloseChat}>
-                    <svg height={20} width={20} stroke="black">
-                        <line x1={2} y1={2} x2={18} y2={18} />
-                        <line x1={18} y1={2} x2={2} y2={18} />
-                    </svg>
+                    <CloseSvg />
                 </span>
             </div>
 

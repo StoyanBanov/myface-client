@@ -2,6 +2,8 @@ import { CDN_AVATAR_ADDRESS, CDN_DEFAULT_AVATAR_NAME_FEMALE, CDN_DEFAULT_AVATAR_
 import { useNavigateToUser } from "../../customHooks/useNavigateToUser"
 
 const ProfilePic = ({ user, className = '', onClick }) => {
+    const defaultOnClick = useNavigateToUser(user._id)
+
     return (
         <img
             className={className}
@@ -12,7 +14,7 @@ const ProfilePic = ({ user, className = '', onClick }) => {
                     : CDN_DEFAULT_AVATAR_NAME_FEMALE
                 )}`} alt={user.fname}
 
-            onClick={onClick || useNavigateToUser(user._id)}
+            onClick={onClick || defaultOnClick}
         />
     )
 }

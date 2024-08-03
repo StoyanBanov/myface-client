@@ -9,18 +9,21 @@ export const useSingleItemFromStore = (getItemById, clearItems, entity) => {
 
     const dispatch = useDispatch()
 
-    const { list, loading } = useSelector(state => state.entities[entity])
+    const { list, loading, lastDeletedId } = useSelector(state => state.entities[entity])
 
     useEffect(() => {
-        if (list.length)
-            setItem(list.find(p => p._id == id))
-        else
-            dispatch(getItemById(id))
-    }, [dispatch, list, id, entity, getItemById])
+        if (!loading && lastDeletedId != id) {
+            if (list.length)
+                setItem(list.find(p => p._id == id))
+            else
+                dispatch(getItemById(id))
+        }
+    }, [dispatch, loading, list, lastDeletedId, id, entity, getItemById])
 
     useEffect(() => {
         return () => {
-            dispatch(clearItems())
+            if (clearItems)
+                dispatch(clearItems())
         }
     }, [dispatch, id, clearItems])
 

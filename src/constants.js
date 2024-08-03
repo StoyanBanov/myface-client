@@ -18,7 +18,8 @@ export const ENDPOINTS = {
     messages: '/chats/messages',
 
     posts: '/posts',
-    ownPosts: '/posts/own'
+    ownPosts: '/posts/own',
+    postLikes: '/posts/likes'
 }
 
 export const MAX_MESSAGES_SKIP = 10

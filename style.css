@@ -5,6 +5,9 @@
 body {
     margin: 0;
     background-color: rgb(247, 252, 255);
+
+    --container-width: 70vh;
+    --container-margin: 10px;
 }
 
 p {
@@ -19,7 +22,8 @@ div {
 }
 
 svg,
-img {
+img,
+button {
     cursor: pointer;
 }
 

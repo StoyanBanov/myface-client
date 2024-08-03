@@ -6,6 +6,7 @@ import style from './style.module.css'
 import { CDN_ADDRESS } from "../../constants"
 import { useStatus } from "../helpers/customHooks/useStatus"
 import ProfilePic from "../helpers/components/images/ProfilePic"
+import { getDateAndTime } from "../../util/helpers"
 
 const OpenMessages = ({ chatId }) => {
     const [hasScrolledUp, setHasScrolledUp] = useState(false)
@@ -21,11 +22,14 @@ const OpenMessages = ({ chatId }) => {
 
     useEffect(() => {
         if (!loading && !hasScrolledUp) {
-            const ul = messagesRef.current
+            setTimeout(() => {
+                const ul = messagesRef.current
 
-            ul.scrollTop = ul.scrollHeight
+                ul.scrollTop = ul.scrollHeight
+            }, 100)
+
         }
-    }, [loading, hasScrolledUp, skip])
+    }, [loading, hasScrolledUp])
 
     const onChatScroll = useCallback(() => {
         const ul = messagesRef.current
@@ -54,6 +58,7 @@ const OpenMessages = ({ chatId }) => {
                     }
 
                     <div>
+                        <span>{getDateAndTime(m.createdAt)}</span>
                         <div className={style.messageImgsContainer}>
                             {m.images.map(id =>
                                 <img
