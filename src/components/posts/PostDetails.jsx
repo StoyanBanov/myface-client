@@ -40,7 +40,7 @@ const PostDetails = () => {
         <div className={style.postCardContainer}>
             {post &&
                 <>
-                    {data._id != post?.user?._id &&
+                    {data._id != post?.user?._id || data._id == post.user &&
                         <PostHeader post={post} />
                     }
 
@@ -49,7 +49,7 @@ const PostDetails = () => {
 
                         <p>Visibility: {post.visibility}</p>
 
-                        {data._id == post.user?._id
+                        {data._id == post.user?._id || data._id == post.user
                             ? <div className={style.postCardFooter}>
                                 <span>Likes: {post.likesCount}</span>
 

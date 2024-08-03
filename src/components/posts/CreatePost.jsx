@@ -6,6 +6,8 @@ import FormInput from "../helpers/components/form/FormInput"
 import FormTemplate from "../helpers/components/form/FormTemplate"
 import { getPostErrors, hasErrors, hasPostFieldError } from "../../util/validation"
 
+import style from './style.module.css'
+
 const CreatePost = () => {
     const [hasSubmitted, setHasSubmitted] = useState(false)
 
@@ -63,21 +65,29 @@ const CreatePost = () => {
     }
 
     return (
-        <FormTemplate title={'Create Post'} btnTxt={'Post'} onSubmit={onSubmit}>
-            <FormInput id={'text'} name={'text'} label={'Text'} value={values.text} error={errors.text} onValueChange={onValueChange} onBlur={onBlur} />
+        <>
+            {hasSubmitted && loading &&
+                <div className={style.postDetailsPreloadContainer} >
+                    <h2>Loading...</h2>
+                </div>
+            }
 
-            <FormInput type={'file'} id={'images'} name={'images'} label={'Images'} multiple={true} value={values.text} error={errors.images} onValueChange={onImage} />
+            <FormTemplate title={'Create Post'} btnTxt={'Post'} onSubmit={onSubmit}>
+                <FormInput id={'text'} name={'text'} label={'Text'} value={values.text} error={errors.text} onValueChange={onValueChange} onBlur={onBlur} />
 
-            <label htmlFor="visibility">
-                <span>Visibility</span>
+                <FormInput type={'file'} id={'images'} name={'images'} label={'Images'} multiple={true} value={values.text} error={errors.images} onValueChange={onImage} />
 
-                <select id="visibility" name="visibility" value={values.visibility} onChange={onValueChange}>
-                    <option value={'owner'}>Only me</option>
-                    <option value={'friends'}>Friends</option>
-                    <option value={'all'}>Everyone</option>
-                </select>
-            </label>
-        </FormTemplate>
+                <label htmlFor="visibility">
+                    <span>Visibility</span>
+
+                    <select id="visibility" name="visibility" value={values.visibility} onChange={onValueChange}>
+                        <option value={'owner'}>Only me</option>
+                        <option value={'friends'}>Friends</option>
+                        <option value={'all'}>Everyone</option>
+                    </select>
+                </label>
+            </FormTemplate>
+        </>
     )
 }
 

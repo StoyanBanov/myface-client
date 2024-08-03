@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { apiCallBegan } from "../api"
-import { ENDPOINTS } from "../../constants"
+import { DEFAULT_SKIP, ENDPOINTS } from "../../constants"
 
 const url = ENDPOINTS.posts
 const ownUrl = ENDPOINTS.ownPosts
@@ -12,7 +12,8 @@ const posts = createSlice({
         list: [],
         skip: 0,
         loading: false,
-        lastDeletedId: ''
+        lastDeletedId: '',
+        hasReceivedAll: false
     },
     reducers: {
         requested: (state) => {
@@ -23,6 +24,10 @@ const posts = createSlice({
 
             state.list.push(...posts)
             state.skip += posts.length
+
+            if (posts.length < DEFAULT_SKIP)
+                state.hasReceivedAll = true
+
             state.loading = false
         },
         requestFailed: (state) => {
@@ -30,7 +35,7 @@ const posts = createSlice({
         },
 
         added: (state, action) => {
-            state.list = [action.payload.data]
+            state.list = [{ ...action.payload.data, likesCount: 0 }]
             state.skip = 1
             state.loading = false
         },

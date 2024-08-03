@@ -79,6 +79,20 @@
     margin: var(--container-margin);
 }
 
+
+.postDetailsPreloadContainer {
+    position: fixed;
+    top: 30px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    background: gray;
+    opacity: 30%;
+}
+
 @media screen and (max-width: 900px) {
     .postCardContainer {
         --container-width: 100%;

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { apiCallBegan } from "./api";
-import { ENDPOINTS } from "../constants";
+import { DEFAULT_SKIP, ENDPOINTS } from "../constants";
 
 const urlUsers = ENDPOINTS.users
 const urlFriendships = ENDPOINTS.friendships
@@ -11,7 +11,8 @@ const users = createSlice({
         current: {},
         list: [],
         skip: 0,
-        loading: false
+        loading: false,
+        hasReceivedAll: false
     },
     reducers: {
         initializedCurrent: (state, action) => {
@@ -27,6 +28,10 @@ const users = createSlice({
 
             state.list.push(...users)
             state.skip += users.length
+
+            if (users.length < DEFAULT_SKIP)
+                state.hasReceivedAll = true
+
             state.loading = false
         },
         added: (state, action) => {
@@ -64,6 +69,7 @@ const users = createSlice({
         cleared: (state) => {
             state.list = []
             state.skip = 0
+            state.hasReceivedAll = false
         }
     }
 })

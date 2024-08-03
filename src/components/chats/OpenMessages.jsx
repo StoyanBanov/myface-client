@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getMessages } from "../../store/chat/messages"
-
-import style from './style.module.css'
 import { CDN_ADDRESS } from "../../constants"
 import { useStatus } from "../helpers/customHooks/useStatus"
 import ProfilePic from "../helpers/components/images/ProfilePic"
 import { getDateAndTime } from "../../util/helpers"
+
+import style from './style.module.css'
 
 const OpenMessages = ({ chatId }) => {
     const [hasScrolledUp, setHasScrolledUp] = useState(false)
@@ -27,7 +27,6 @@ const OpenMessages = ({ chatId }) => {
 
                 ul.scrollTop = ul.scrollHeight
             }, 100)
-
         }
     }, [loading, hasScrolledUp])
 
@@ -51,6 +50,10 @@ const OpenMessages = ({ chatId }) => {
 
     return (
         <ul ref={messagesRef} className={style.messagesUl} onScroll={onChatScroll}>
+            {loading &&
+                <span>Loading...</span>
+            }
+
             {messages?.map(m =>
                 <li className={m.user._id == data._id ? style.messageLiUser : style.messageLi} key={m._id}>
                     {m.user._id != data._id &&
