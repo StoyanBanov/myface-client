@@ -18,7 +18,7 @@
 - [Project Overview](#project-overview)
 - [Features](#features)
 - [Running the Application](#running-the-application)
-- [Live Demo](#live-demo)
+- [Deployment Info](#deployment-info)
 
 ## Project Overview:
 
@@ -62,15 +62,15 @@ Myface is a small social network. The web application is my(Stoyan Banov) entry 
 
 ## Running the application
 
-  - create a .env file with the following properties:
+  - Create a .env file with the following properties:
     - VITE_HOST=(address to the [Myface Server](https://github.com/StoyanBanov/myface-server))
-  - install dependencies - npm i
-  - run appliaction - npm run dev
-  - run the [Myface Server](https://github.com/StoyanBanov/myface-server)
+  - Install dependencies - npm i
+  - Run appliaction - npm run dev
+  - Run the [Myface Server](https://github.com/StoyanBanov/myface-server)
 
 ## Deployment Info
- - Deployed on Netlify.
+ - Deployed on [Netlify](https://www.netlify.com/)
 
-## Live Demo: 
+#### Live Demo: 
 
 [<img alt="Play Button" src="https://user-images.githubusercontent.com/114406139/211439129-37c7a037-dde4-49d6-bf62-4ffc4f315fa9.PNG" />](https://myface-app.netlify.app/)
