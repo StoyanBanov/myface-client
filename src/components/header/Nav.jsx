@@ -3,8 +3,9 @@ import { useStatus } from "../helpers/customHooks/useStatus"
 import { useEffect, useState } from "react"
 import AvailableChats from "../chats/AvailableChats"
 
-import style from './style.module.css'
-import commonStyle from '../helpers/commonStyle.style.module.css'
+import { useWindowWidth } from "../helpers/customHooks/useWindowWidth"
+import DesktopNav from "./DesktopNav"
+import MobileNav from "./MobileNav"
 
 const Nav = () => {
     const { isAuth } = useStatus()
@@ -21,6 +22,8 @@ const Nav = () => {
         }
     }, [searchParams])
 
+    const { windowWidth } = useWindowWidth()
+
     const onSearchChange = e => {
         setSearch(e.target.value)
     }
@@ -31,38 +34,14 @@ const Nav = () => {
         navigate('/search/users?search=' + search)
     }
 
-    const ActiveClassNameHandler = ({ isActive }) => isActive ? commonStyle.activeLink : commonStyle.inactiveLink
-
     return (
-        <nav className={style.mainNav}>
-            <div>
-                {/* logo */}
+        <>
+            {windowWidth > 900
+                ? <DesktopNav isAuth={isAuth} search={search} onSearchSubmit={onSearchSubmit} onSearchChange={onSearchChange} />
 
-                {isAuth &&
-                    <form onSubmit={onSearchSubmit}>
-                        <input type="text" name="search" value={search} onChange={onSearchChange} />
-                    </form>
-                }
-            </div>
-            {isAuth
-                ? <>
-                    <div className={style.centerNav}>
-                        <NavLink className={ActiveClassNameHandler} to={'/'}>Home</NavLink>
-                        <NavLink className={ActiveClassNameHandler} to={'/create/post'}>Create</NavLink>
-                    </div>
-
-                    <div className={style.rightNav}>
-                        <AvailableChats />
-                        <NavLink className={ActiveClassNameHandler} to={'/profile'}>Profile</NavLink>
-                        <NavLink className={ActiveClassNameHandler} to={'/logout'} >Logout</NavLink>
-                    </div>
-                </>
-                : <div className={style.rightNav}>
-                    <NavLink className={ActiveClassNameHandler} to={'/register'}>Register</NavLink>
-                    <NavLink className={ActiveClassNameHandler} to={'/login'}>Login</NavLink>
-                </div>
+                : <MobileNav isAuth={isAuth} search={search} onSearchSubmit={onSearchSubmit} onSearchChange={onSearchChange} />
             }
-        </nav>
+        </>
     )
 }
 
