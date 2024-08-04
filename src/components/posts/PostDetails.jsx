@@ -4,11 +4,12 @@ import PostContent from "./PostContent"
 import PostFooter from "./PostFooter"
 import { useStatus } from "../helpers/customHooks/useStatus"
 
-import style from './style.module.css'
 import PostHeader from "./PostHeader"
 import { useSingleItemFromStore } from "../helpers/customHooks/useSingleItemFromStore"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
+
+import style from './style.module.css'
 
 const PostDetails = () => {
     const navigate = useNavigate()

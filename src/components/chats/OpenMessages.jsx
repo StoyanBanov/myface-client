@@ -7,6 +7,8 @@ import ProfilePic from "../helpers/components/images/ProfilePic"
 import { getDateAndTime } from "../../util/helpers"
 
 import style from './style.module.css'
+import { useCarousel } from "../helpers/customHooks/useCarousel"
+import Carousel from "../helpers/components/images/Carousel"
 
 const OpenMessages = ({ chatId }) => {
     const [hasScrolledUp, setHasScrolledUp] = useState(false)
@@ -30,6 +32,14 @@ const OpenMessages = ({ chatId }) => {
         }
     }, [loading, hasScrolledUp])
 
+    const { openCarousel, closeCarousel, isCarouselOpened } = useCarousel()
+    const [carouselImgs, setCarouselImgs] = useState([])
+
+    const openImagesInCarousel = (imgs) => () => {
+        setCarouselImgs(imgs)
+        openCarousel()
+    }
+
     const onChatScroll = useCallback(() => {
         const ul = messagesRef.current
         const currentScrollTop = ul.scrollTop
@@ -49,40 +59,49 @@ const OpenMessages = ({ chatId }) => {
     }, [chatId, dispatch, skip, scrollTop])
 
     return (
-        <ul ref={messagesRef} className={style.messagesUl} onScroll={onChatScroll}>
-            {loading &&
-                <span>Loading...</span>
-            }
+        <>
+            <ul ref={messagesRef} className={style.messagesUl} onScroll={onChatScroll}>
+                {loading &&
+                    <span>Loading...</span>
+                }
 
-            {messages?.map(m =>
-                <li className={m.user._id == data._id ? style.messageLiUser : style.messageLi} key={m._id}>
-                    {m.user._id != data._id &&
-                        <ProfilePic user={m.user} className={style.messageAvatar} />
-                    }
+                {messages?.map(m =>
+                    <li className={m.user._id == data._id ? style.messageLiUser : style.messageLi} key={m._id}>
+                        {m.user._id != data._id &&
+                            <ProfilePic user={m.user} className={style.messageAvatar} />
+                        }
 
-                    <div>
-                        <span>{getDateAndTime(m.createdAt)}</span>
-                        <div className={style.messageImgsContainer}>
-                            {m.images.map(id =>
-                                <img
-                                    key={id}
-                                    style={{
-                                        maxWidth: m.images.length == 1 ? 180 : 90,
-                                        maxHeight: m.images.length == 1 ? 180 : 90
-                                    }}
-                                    className={style.messageImg}
-                                    src={`${CDN_ADDRESS}/${id}`}
-                                />
-                            )}
+                        <div>
+                            <span>{getDateAndTime(m.createdAt)}</span>
+                            <div className={style.messageImgsContainer}>
+                                {m.images.map(id =>
+                                    <img
+                                        key={id}
+                                        style={{
+                                            maxWidth: m.images.length == 1 ? 180 : 90,
+                                            maxHeight: m.images.length == 1 ? 180 : 90
+                                        }}
+                                        className={style.messageImg}
+                                        src={`${CDN_ADDRESS}/${id}`}
+                                        onClick={openImagesInCarousel(m.images)}
+                                    />
+                                )}
+                            </div>
+
+                            <p>
+                                {m.text}
+                            </p>
                         </div>
+                    </li>
+                )}
+            </ul>
 
-                        <p>
-                            {m.text}
-                        </p>
-                    </div>
-                </li>
-            )}
-        </ul>
+            {isCarouselOpened &&
+                <div>
+                    <Carousel imgIds={carouselImgs} closeHandler={closeCarousel} />
+                </div>
+            }
+        </>
     )
 }
 
