@@ -28,7 +28,7 @@ const PostFooter = ({ post }) => {
     return (
         <div className={style.postCardFooter}>
             <div>
-                {data._id != post.user._id
+                {data._id && data._id != post.user?._id
                     ? <>
                         {post.isLiked
                             ? <button onClick={onRemoveLike}>Liked</button>
