@@ -18,7 +18,7 @@
 - [Project Overview](#project-overview)
 - [Features](#features)
 - [Running the Application](#running-the-application)
-- [Project Demo And Video](#project-demo-video)
+- [Live Demo](#live-demo)
 
 ## Project Overview:
 
