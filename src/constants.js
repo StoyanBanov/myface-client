@@ -19,7 +19,8 @@ export const ENDPOINTS = {
 
     posts: '/posts',
     ownPosts: '/posts/own',
-    postLikes: '/posts/likes'
+    postLikes: '/posts/likes',
+    postComments: '/posts/comments'
 }
 
 export const DEFAULT_SKIP = 10

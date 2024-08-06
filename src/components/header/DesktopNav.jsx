@@ -13,7 +13,7 @@ const DesktopNav = ({ isAuth, search, onSearchSubmit, onSearchChange }) => {
 
                 {isAuth &&
                     <form onSubmit={onSearchSubmit}>
-                        <input type="text" name="search" value={search} onChange={onSearchChange} />
+                        <input type="text" name="search" value={search} onChange={onSearchChange} placeholder='Search...' />
                     </form>
                 }
             </div>

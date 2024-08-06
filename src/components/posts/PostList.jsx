@@ -23,7 +23,7 @@ const PostList = ({ getPostsActionCreator }) => {
     useScroll(loading, hasReceivedAll, getPostsActionCreator)
 
     return (
-        <ul>
+        <ul className={style.postCardUl}>
             {list.map(p => <li key={p._id}><PostCard post={p} /></li>)}
 
             {loading &&

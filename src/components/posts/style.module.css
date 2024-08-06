@@ -1,3 +1,23 @@
+.postCardUl li {
+    display: flex;
+}
+
+.postCardBackground {
+    z-index: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background: black;
+    opacity: 50%;
+}
+
+.postCardWrapper {
+    width: calc(var(--container-width) + 20px);
+    margin: 20px;
+}
+
 .postCardContainer {
     width: var(--container-width);
     background-color: white;
@@ -5,9 +25,10 @@
     display: flex;
     flex-direction: column;
     align-items: left;
-    margin: 20px;
 
     box-shadow: 0px 2px 3px gray;
+
+    overflow: hidden;
 }
 
 .postCardContainer p {
@@ -91,6 +112,25 @@
     z-index: 1;
     background: gray;
     opacity: 30%;
+}
+
+.postLikesCount {
+    margin-left: var(--container-margin);
+}
+
+.postCommentContainer {
+    padding: 10px;
+    border-bottom: 1px solid black;
+    border-radius: 0;
+}
+
+.postCommentContainer p {
+    margin: 0;
+}
+
+.commentImage {
+    width: calc(var(--container-width) / 4);
+    max-height: calc(var(--container-width) / 2);
 }
 
 @media screen and (max-width: 900px) {

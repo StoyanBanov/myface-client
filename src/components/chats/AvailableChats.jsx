@@ -5,6 +5,7 @@ import AvailableChatCard from "./AvailableChatCard"
 
 import style from './style.module.css'
 import commonStyle from '../helpers/commonStyle.style.module.css'
+import { useScroll } from "../helpers/customHooks/useScroll"
 
 const AvailableChats = () => {
     const [isChatsRendered, setIsChatsRendered] = useState(false)
@@ -13,6 +14,7 @@ const AvailableChats = () => {
 
     const chatsContainer = useRef()
     const chatsToggleAnchor = useRef()
+    const chatsUl = useRef()
 
     const closeChats = useCallback(() => {
         dispatch(clearAvailableChats())
@@ -33,7 +35,9 @@ const AvailableChats = () => {
         }
     }, [onCloseChats, isChatsRendered])
 
-    const chats = useSelector(state => state.entities.chats.available.list)
+    const { list, loading } = useSelector(state => state.entities.chats.available)
+
+    useScroll(loading, getChats, chatsUl.current)
 
     const onRenderChatsClick = e => {
         e.preventDefault()
@@ -59,12 +63,18 @@ const AvailableChats = () => {
 
             <div ref={chatsContainer} className={style.availableChatsContainer}>
                 {isChatsRendered &&
-                    <ul>
-                        {chats.map(c =>
+                    <ul ref={chatsUl}>
+                        {list.map(c =>
                             <li key={c._id}>
                                 <AvailableChatCard chat={c} closeChats={closeChats} />
                             </li>
                         )}
+
+                        {loading &&
+                            <li>
+                                <span>Loading...</span>
+                            </li>
+                        }
                     </ul>
                 }
             </div>

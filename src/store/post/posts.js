@@ -69,6 +69,8 @@ const posts = createSlice({
     }
 })
 
+
+// Actions
 const {
     requested,
     received,

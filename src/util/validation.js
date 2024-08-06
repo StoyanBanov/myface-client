@@ -76,3 +76,28 @@ export const getPostErrors = () => {
         text: { value: false, hints: ['No longer than 2000 characters'] }
     }
 }
+
+
+// Comment validation
+
+export const hasCommentFieldError = (name, value) => {
+    switch (name) {
+        case 'text':
+            if (value.length > 500)
+                return true
+            return false
+        case 'images':
+            if ([...value].some(i => hasFileError(i)))
+                return true
+            return false
+        default:
+            return false
+    }
+}
+
+export const getCommentErrors = () => {
+    return {
+        images: getFileError(),
+        text: { value: false, hints: ['No longer than 500 characters'] }
+    }
+}

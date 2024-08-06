@@ -8,8 +8,8 @@ const MobileNav = ({ isAuth, search, onSearchSubmit, onSearchChange }) => {
     const ActiveClassNameHandler = ({ isActive }) => isActive ? commonStyle.activeLink : commonStyle.inactiveLink
 
     return (
-        <nav style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', background: 'white' }}>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <nav className={style.mainMobileNav}>
+            <div className={style.topMobileNav} >
                 {isAuth
                     ? <>
                         <>
@@ -27,12 +27,12 @@ const MobileNav = ({ isAuth, search, onSearchSubmit, onSearchChange }) => {
                 }
             </div>
 
-            <div style={{ margin: 5 }}>
+            <div className={style.botMobileNav}>
                 {/* logo */}
 
                 {isAuth &&
                     <form onSubmit={onSearchSubmit}>
-                        <input type="text" name="search" value={search} onChange={onSearchChange} />
+                        <input type="text" name="search" value={search} onChange={onSearchChange} placeholder='Search...' />
                     </form>
                 }
             </div>

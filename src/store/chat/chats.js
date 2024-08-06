@@ -10,7 +10,8 @@ const chats = createSlice({
     initialState: {
         available: {
             list: [],
-            loading: false
+            loading: false,
+            skip: 0
         },
         open: [],
     },
@@ -20,6 +21,7 @@ const chats = createSlice({
         },
         availableReceived: (state, action) => {
             state.available.list.push(...action.payload.data)
+            state.available.skip += action.payload.data.length
             state.available.loading = false
         },
         availableFailed: (state) => {
@@ -27,6 +29,7 @@ const chats = createSlice({
         },
         availableCleared: (state) => {
             state.available.list = []
+            state.available.skip = 0
         },
 
         openAdded: (state, action) => {
@@ -106,12 +109,16 @@ export const getChat = (chat) =>
     })
 
 export const getChats = () =>
-    apiCallBegan({
-        url,
-        onStart: availableRequested.type,
-        onSuccess: availableReceived.type,
-        onError: availableFailed.type
-    })
+    (dispatch, getState) => {
+        dispatch(
+            apiCallBegan({
+                url: `${url}?skip=${getState().entities.chats.available.skip}`,
+                onStart: availableRequested.type,
+                onSuccess: availableReceived.type,
+                onError: availableFailed.type
+            })
+        )
+    }
 
 export const clearAvailableChats = () =>
     availableCleared()

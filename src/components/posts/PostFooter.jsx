@@ -5,7 +5,8 @@ import style from './style.module.css'
 import { useDispatch } from "react-redux"
 import { addLikeToPost, deleteLikeFromPost } from "../../store/post/posts"
 
-const PostFooter = ({ post }) => {
+const PostFooter = ({ post, openComments }) => {
+
     const { data } = useStatus()
 
     const location = useLocation()
@@ -35,15 +36,19 @@ const PostFooter = ({ post }) => {
                             : <button onClick={onLike}>Like</button>
                         }
 
-                        <span>{post.likesCount}</span>
+                        <span className={style.postLikesCount}>{post.likesCount}</span>
                     </>
-                    : <span>Likes: {post.likesCount}</span>
+                    : <span className={style.postLikesCount}>Likes: {post.likesCount}</span>
                 }
             </div>
 
 
             {location.pathname != '/posts/' + post._id &&
-                <button onClick={onDetailsClick}>Details</button>
+                <>
+                    <button onClick={openComments}>Comments</button>
+
+                    <button onClick={onDetailsClick}>Details</button>
+                </>
             }
         </div>
     )

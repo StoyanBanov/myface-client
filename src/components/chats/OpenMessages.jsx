@@ -62,7 +62,9 @@ const OpenMessages = ({ chatId }) => {
         <>
             <ul ref={messagesRef} className={style.messagesUl} onScroll={onChatScroll}>
                 {loading &&
-                    <span>Loading...</span>
+                    <li>
+                        <span>Loading...</span>
+                    </li>
                 }
 
                 {messages?.map(m =>

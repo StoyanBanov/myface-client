@@ -33,3 +33,19 @@
 .rightNav {
     justify-content: right;
 }
+
+.mainMobileNav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+}
+
+.topMobileNav {
+    display: flex;
+    justify-content: center;
+}
+
+.botMobileNav {
+    margin: 5px;
+}

@@ -1,23 +1,25 @@
 import { useCallback, useEffect } from "react"
 import { useDispatch } from "react-redux"
 
-export const useScroll = (loading, hasReceivedAll, getActionCreator) => {
+export const useScroll = (loading, hasReceivedAll, getActionCreator, element) => {
     const dispatch = useDispatch()
 
     const onScroll = useCallback(() => {
-        const html = document.querySelector('html')
+        const scrollable = element || document.querySelector('html')
 
-        if (!loading && !hasReceivedAll && html.scrollTop == html.scrollHeight - html.clientHeight) {
+        if (!loading && !hasReceivedAll && scrollable.scrollTop == scrollable.scrollHeight - scrollable.clientHeight) {
             dispatch(getActionCreator())
-            html.scrollTop = html.scrollTop - 2
+            scrollable.scrollTop = scrollable.scrollTop - 2
         }
-    }, [loading, hasReceivedAll, dispatch, getActionCreator])
+    }, [element, loading, hasReceivedAll, dispatch, getActionCreator])
 
     useEffect(() => {
-        document.addEventListener('scroll', onScroll)
+        const scrollable = element || document
+
+        scrollable.addEventListener('scroll', onScroll)
 
         return () => {
-            document.removeEventListener('scroll', onScroll)
+            scrollable.removeEventListener('scroll', onScroll)
         }
-    }, [onScroll])
+    }, [element, onScroll])
 }
