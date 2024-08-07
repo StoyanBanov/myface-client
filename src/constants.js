@@ -41,3 +41,5 @@ export const FRIENDSHIP_STATUS_ACCEPT = 'Accept'
 export const FRIENDSHIP_STATUS_REQUESTED = 'Requested'
 export const FRIENDSHIP_STATUS_FRIENDS = 'Friends'
 export const FRIENDSHIP_STATUS_ADD_FRIEND = 'Add friend'
+
+export const MAX_IMAGES_COUNT = 10

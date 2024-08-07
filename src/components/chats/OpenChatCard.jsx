@@ -6,10 +6,8 @@ import OpenMessages from "./OpenMessages"
 import { removeChat } from "../../store/chat/chats"
 import { addMessage, getMessages, removeMessages } from "../../store/chat/messages"
 
-
-import { ALLOWED_FILE_TYPES } from "../../constants"
 import FormInput from "../helpers/components/form/FormInput"
-import { hasErrors, hasFileError } from "../../util/validation"
+import { getFilesError, hasErrors, hasImagesError } from "../../util/validation"
 import CloseSvg from "../helpers/components/svgs/CloseSvg"
 
 import style from './style.module.css'
@@ -22,7 +20,7 @@ const OpenChatCard = ({ chat, loading }) => {
 
     const [values, setValues] = useState({ ...initialValues })
 
-    const [errors, setErrors] = useState({ images: { value: false, hints: ['No larger than 4MB', `Supported formats: ${ALLOWED_FILE_TYPES.join(', ')}`] } })
+    const [errors, setErrors] = useState({ images: getFilesError() })
 
     const dispatch = useDispatch()
 
@@ -38,7 +36,7 @@ const OpenChatCard = ({ chat, loading }) => {
     const onFileChange = ({ target: { name, files } }) => {
         setValues(state => ({ ...state, [name]: [...files] }))
 
-        setErrors(state => ({ ...state, name: [...files].some(f => hasFileError(f)) }))
+        setErrors(state => ({ ...state, name: hasImagesError(files) }))
     }
 
     const onMessageSubmit = e => {

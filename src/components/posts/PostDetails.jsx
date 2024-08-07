@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 
 import style from './style.module.css'
+import PostComments from "./PostComments"
 
 const PostDetails = () => {
     const navigate = useNavigate()
@@ -38,7 +39,7 @@ const PostDetails = () => {
     }
 
     return (
-        <div className={style.postCardContainer}>
+        <div className={style.postCardContainer} style={{ marginBottom: 20 }}>
             {post &&
                 <>
                     {data._id != post?.user?._id || data._id == post.user &&
@@ -63,6 +64,8 @@ const PostDetails = () => {
                             : <PostFooter post={post} />
                         }
                     </div>
+
+                    <PostComments post={post} />
                 </>
             }
         </div>

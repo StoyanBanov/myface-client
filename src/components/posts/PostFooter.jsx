@@ -5,7 +5,7 @@ import style from './style.module.css'
 import { useDispatch } from "react-redux"
 import { addLikeToPost, deleteLikeFromPost } from "../../store/post/posts"
 
-const PostFooter = ({ post, openComments }) => {
+const PostFooter = ({ post, openComments, closeComments, showComments }) => {
 
     const { data } = useStatus()
 
@@ -45,7 +45,7 @@ const PostFooter = ({ post, openComments }) => {
 
             {location.pathname != '/posts/' + post._id &&
                 <>
-                    <button onClick={openComments}>Comments</button>
+                    <button onClick={showComments ? closeComments : openComments}>Comments</button>
 
                     <button onClick={onDetailsClick}>Details</button>
                 </>

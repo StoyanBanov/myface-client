@@ -28,7 +28,7 @@ const PostList = ({ getPostsActionCreator }) => {
 
             {loading &&
                 new Array(5).fill(0).map((_, i) =>
-                    <li key={i} className={style.postCardContainer} style={{ height: '40vh' }}>
+                    <li key={i} className={style.postCardContainer} style={{ height: '40vh', marginBottom: '20px' }}>
                     </li>
                 )
             }

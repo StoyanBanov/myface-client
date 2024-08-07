@@ -1,4 +1,4 @@
-import { ALLOWED_FILE_TYPES, MAX_IMAGE_SIZE, PASSWORD_REGEX } from "../constants"
+import { ALLOWED_FILE_TYPES, MAX_IMAGE_SIZE, MAX_IMAGES_COUNT, PASSWORD_REGEX } from "../constants"
 
 export const hasErrors = (errors) => {
     return Object.values(errors).some(e => e.value)
@@ -7,33 +7,27 @@ export const hasErrors = (errors) => {
 export const hasFileError = (file) => file && (file.size > MAX_IMAGE_SIZE || !ALLOWED_FILE_TYPES.includes(file.type))
 
 const getFileError = () => ({ value: false, hints: ['No larger than 4MB', `Supported formats: ${ALLOWED_FILE_TYPES.join(', ')}`] })
+export const getFilesError = () => ({ value: false, hints: ['No larger than 4MB', `Supported formats: ${ALLOWED_FILE_TYPES.join(', ')}`, `No more than ${MAX_IMAGES_COUNT} files`] })
+
+export const hasImagesError = (images) =>
+    [...images].some(i => hasFileError(i))
+    || images.length > MAX_IMAGES_COUNT
 
 // User validation
 
 export const hasUserFieldError = (name, value, values) => {
     switch (name) {
         case 'email':
-            if (value.length > 30)
-                return true
-            return false
+            return value.length > 30
         case 'fname':
         case 'lname':
-            if (value.length < 2 || value.length > 30)
-                return true
-            return false
+            return value.length < 2 || value.length > 30
         case 'dob':
-            if ((Date.now() - Date.parse(value)) / 31536000000 < 12) {
-                return true
-            }
-            return false
+            return (Date.now() - Date.parse(value)) / 31536000000 < 12
         case 'password':
-            if (!PASSWORD_REGEX.test(value))
-                return true
-            return false
+            return !PASSWORD_REGEX.test(value)
         case 'rePassword':
-            if (value != values.password)
-                return true
-            return false
+            return value != values.password
         default:
             return false
     }
@@ -58,13 +52,9 @@ export const getUserErrors = () => {
 export const hasPostFieldError = (name, value) => {
     switch (name) {
         case 'text':
-            if (value.length > 2000)
-                return true
-            return false
+            return value.length > 2000
         case 'images':
-            if ([...value].some(i => hasFileError(i)))
-                return true
-            return false
+            return hasImagesError(value)
         default:
             return false
     }
@@ -72,7 +62,7 @@ export const hasPostFieldError = (name, value) => {
 
 export const getPostErrors = () => {
     return {
-        images: getFileError(),
+        images: getFilesError(),
         text: { value: false, hints: ['No longer than 2000 characters'] }
     }
 }
@@ -83,13 +73,9 @@ export const getPostErrors = () => {
 export const hasCommentFieldError = (name, value) => {
     switch (name) {
         case 'text':
-            if (value.length > 500)
-                return true
-            return false
+            return value.length > 500
         case 'images':
-            if ([...value].some(i => hasFileError(i)))
-                return true
-            return false
+            return hasImagesError(value)
         default:
             return false
     }
@@ -97,7 +83,7 @@ export const hasCommentFieldError = (name, value) => {
 
 export const getCommentErrors = () => {
     return {
-        images: getFileError(),
+        images: getFilesError(),
         text: { value: false, hints: ['No longer than 500 characters'] }
     }
 }

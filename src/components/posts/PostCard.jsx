@@ -33,7 +33,7 @@ const PostCard = ({ post }) => {
 
                     <PostContent post={post} />
 
-                    <PostFooter post={post} openComments={openComments} />
+                    <PostFooter post={post} openComments={openComments} closeComments={closeComments} showComments={showComments} />
 
                     {showComments &&
                         <PostComments post={post} />
