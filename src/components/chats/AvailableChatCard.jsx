@@ -1,6 +1,8 @@
 import { useDispatch } from "react-redux"
 import { openChat } from "../../store/chat/chats"
 
+import style from './style.module.css'
+
 const AvailableChatCard = ({ chat, closeChats }) => {
     const dispatch = useDispatch()
 
@@ -11,7 +13,7 @@ const AvailableChatCard = ({ chat, closeChats }) => {
     }
 
     return (
-        <div onClick={onOpenChatClick}>
+        <div className={style.availableChatCardContainer} onClick={onOpenChatClick}>
             <h3>{chat.title}</h3>
         </div>
     )

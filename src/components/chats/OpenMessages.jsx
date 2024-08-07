@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getMessages } from "../../store/chat/messages"
-import { CDN_ADDRESS } from "../../constants"
-import { useStatus } from "../helpers/customHooks/useStatus"
-import ProfilePic from "../helpers/components/images/ProfilePic"
-import { getDateAndTime } from "../../util/helpers"
 
-import style from './style.module.css'
 import { useCarousel } from "../helpers/customHooks/useCarousel"
 import Carousel from "../helpers/components/images/Carousel"
+import CreateMessage from "./CreateMessage"
+import MessageCard from "./MessageCard"
+
+import style from './style.module.css'
 
 const OpenMessages = ({ chatId }) => {
     const [hasScrolledUp, setHasScrolledUp] = useState(false)
@@ -17,8 +16,6 @@ const OpenMessages = ({ chatId }) => {
     const dispatch = useDispatch()
 
     const { messages, loading, skip } = useSelector(state => state.entities.messages[chatId]) || { loading: true, skip: 0 }
-
-    const { data } = useStatus()
 
     const messagesRef = useRef()
 
@@ -33,10 +30,10 @@ const OpenMessages = ({ chatId }) => {
     }, [loading, hasScrolledUp])
 
     const { openCarousel, closeCarousel, isCarouselOpened } = useCarousel()
-    const [carouselImgs, setCarouselImgs] = useState([])
+    const [carouselValues, setCarouselValues] = useState({ imgs: [], ind: 0 })
 
-    const openImagesInCarousel = (imgs) => () => {
-        setCarouselImgs(imgs)
+    const openImagesInCarousel = (imgs, ind) => () => {
+        setCarouselValues({ imgs, ind })
         openCarousel()
     }
 
@@ -46,6 +43,8 @@ const OpenMessages = ({ chatId }) => {
 
         if (currentScrollTop == 0) {
             dispatch(getMessages(chatId, { skip }))
+
+            ul.scrollTop = currentScrollTop + 1
         }
 
         if (currentScrollTop < scrollTop)
@@ -67,42 +66,16 @@ const OpenMessages = ({ chatId }) => {
                     </li>
                 }
 
-                {messages?.map(m =>
-                    <li className={m.user._id == data._id ? style.messageLiUser : style.messageLi} key={m._id}>
-                        {m.user._id != data._id &&
-                            <ProfilePic user={m.user} className={style.messageAvatar} />
-                        }
-
-                        <div>
-                            <span>{getDateAndTime(m.createdAt)}</span>
-                            <div className={style.messageImgsContainer}>
-                                {m.images.map(id =>
-                                    <img
-                                        key={id}
-                                        style={{
-                                            maxWidth: m.images.length == 1 ? 180 : 90,
-                                            maxHeight: m.images.length == 1 ? 180 : 90
-                                        }}
-                                        className={style.messageImg}
-                                        src={`${CDN_ADDRESS}/${id}`}
-                                        onClick={openImagesInCarousel(m.images)}
-                                    />
-                                )}
-                            </div>
-
-                            <p>
-                                {m.text}
-                            </p>
-                        </div>
-                    </li>
-                )}
+                {messages?.map(m => <MessageCard key={m._id} message={m} openImagesInCarousel={openImagesInCarousel} />)}
             </ul>
 
             {isCarouselOpened &&
                 <div>
-                    <Carousel imgIds={carouselImgs} closeHandler={closeCarousel} />
+                    <Carousel imgIds={carouselValues.imgs} ind={carouselValues.ind} closeHandler={closeCarousel} />
                 </div>
             }
+
+            <CreateMessage chatId={chatId} loading={loading} />
         </>
     )
 }

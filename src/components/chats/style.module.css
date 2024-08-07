@@ -9,10 +9,13 @@
 .availableChatsContainer ul {
     overflow-y: scroll;
     max-height: 90vh;
+    padding: 5px;
 }
 
-.availableChatsContainer div {
+.availableChatCardContainer {
     padding: 5px;
+    border-bottom: 1px solid black;
+    border-radius: 0;
 }
 
 

@@ -2,10 +2,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { getChats, clearAvailableChats } from "../../store/chat/chats"
 import { useCallback, useEffect, useRef, useState } from "react"
 import AvailableChatCard from "./AvailableChatCard"
-
-import style from './style.module.css'
-import commonStyle from '../helpers/commonStyle.style.module.css'
 import { useScroll } from "../helpers/customHooks/useScroll"
+
+import commonStyle from '../helpers/commonStyle.style.module.css'
+import style from './style.module.css'
 
 const AvailableChats = () => {
     const [isChatsRendered, setIsChatsRendered] = useState(false)
@@ -37,7 +37,7 @@ const AvailableChats = () => {
 
     const { list, loading } = useSelector(state => state.entities.chats.available)
 
-    useScroll(loading, getChats, chatsUl.current)
+    useScroll(loading, false, getChats, chatsUl.current)
 
     const onRenderChatsClick = e => {
         e.preventDefault()
@@ -75,9 +75,12 @@ const AvailableChats = () => {
                                 <span>Loading...</span>
                             </li>
                         }
+
+                        {list.length == 0 && <li>No chats</li>}
                     </ul>
                 }
             </div>
+
         </>
     )
 }
