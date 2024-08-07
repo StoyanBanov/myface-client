@@ -1,15 +1,14 @@
 export const getTimeFromString = (str, options = {}) => {
     const date = new Date(str)
 
-    const dateArr = []
+    const result = []
     if (options.date)
-        dateArr.push(ensureTwoDigits(date.getDate()), ensureTwoDigits(date.getMonth()), date.getFullYear())
+        result.push([ensureTwoDigits(date.getDate()), ensureTwoDigits(date.getMonth() + 1), date.getFullYear()].join('.'))
 
-    const timeArr = []
     if (options.time)
-        timeArr.push(date.getHours(), date.getMinutes(), date.getSeconds())
+        result.push([date.getHours(), date.getMinutes(), date.getSeconds()].join(':'))
 
-    return `${dateArr.join('.')} - ${timeArr.map(ensureTwoDigits).join(':')}`
+    return `${result.join(' - ')}`
 
     function ensureTwoDigits(time) {
         return `0${time}`.slice(-2)
