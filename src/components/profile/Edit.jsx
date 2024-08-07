@@ -8,6 +8,8 @@ import { useDispatch } from "react-redux"
 import { edit } from "../../store/auth"
 
 const Edit = () => {
+    const [hasSubmitted, setHasSubmitted] = useState(false)
+
     const [values, setValues] = useState({
         profilePic: '',
         fname: '',
@@ -18,7 +20,7 @@ const Edit = () => {
 
     const [errors, setErrors] = useState(getUserErrors())
 
-    const { user } = useOutletContext()
+    const { user, loading } = useOutletContext()
 
     useEffect(() => {
         if (user._id) {
@@ -62,12 +64,15 @@ const Edit = () => {
     const onSubmit = e => {
         e.preventDefault()
 
-        if (!hasErrors(errors))
+        if (!hasErrors(errors)) {
             dispatch(edit(values))
+
+            setHasSubmitted(true)
+        }
     }
 
     return (
-        <FormTemplate title={'Edit Profile Info'} onSubmit={onSubmit} btnTxt={'Edit'}>
+        <FormTemplate title={'Edit Profile Info'} onSubmit={onSubmit} btnTxt={'Edit'} preload={loading && hasSubmitted}>
             <FormInput type={'file'} id={'profilePic'} name={'profilePic'} label={'Profile Picture'} error={errors.profilePic} onValueChange={onImage} />
 
             <FormInput type={'text'} id={'fname'} name={'fname'} label={'First Name'} error={errors.fname} value={values.fname} onValueChange={onValueChange} onBlur={onBlur} placeholder={'First Name'} />

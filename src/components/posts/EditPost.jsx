@@ -3,18 +3,19 @@ import { getPostErrors, hasErrors, hasPostFieldError } from "../../util/validati
 import { useSingleItemFromStore } from "../helpers/customHooks/useSingleItemFromStore"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { clearPosts, editPostById, getPostsById } from "../../store/post/posts"
+import { editPostById, getPostsById } from "../../store/post/posts"
 import FormTemplate from "../helpers/components/form/FormTemplate"
 import FormInput from "../helpers/components/form/FormInput"
-import CloseSvg from "../helpers/components/svgs/CloseSvg"
+import { CDN_ADDRESS } from "../../constants"
+import Loading from "../helpers/components/preload/Loading"
 
 import style from './style.module.css'
-import { CDN_ADDRESS } from "../../constants"
+import CloseBtn from "../helpers/components/buttons/CloseBtn"
 
 const EditPost = () => {
     const [hasSubmitted, setHasSubmitted] = useState(false)
 
-    const post = useSingleItemFromStore(getPostsById, clearPosts, 'posts')
+    const post = useSingleItemFromStore(getPostsById, null, 'posts')
 
     const [values, setValues] = useState({
         text: '',
@@ -95,40 +96,43 @@ const EditPost = () => {
     }
 
     return (
-        <FormTemplate title={'Edit Post'} btnTxt={'Post'} onSubmit={onSubmit}>
-            {values.images.length > 0 &&
-                <ul className={style.postImgUl}>
-                    {post.images.filter(i => values.images.includes(i)).map(i => <li key={i}>
-                        <div className={style.editImagesContainer} >
-                            <span onClick={onRemoveImage(i)}>
-                                <CloseSvg />
-                            </span>
+        <>
+            <Loading loading={hasSubmitted && loading} />
 
-                            <img
-                                style={{ maxWidth: '20vh', maxHeight: '20vh' }}
-                                className={style.postImg}
-                                src={`${CDN_ADDRESS}/${i}`}
-                                alt={i}
-                            />
-                        </div>
-                    </li>)}
-                </ul>
-            }
+            <FormTemplate title={'Edit Post'} btnTxt={'Edit'} onSubmit={onSubmit}>
+                {values.images.length > 0 &&
+                    <ul className={style.postImgUl}>
+                        {post.images.filter(i => values.images.includes(i)).map(i => <li key={i}>
+                            <div className={style.editImagesContainer} >
+                                <CloseBtn onClick={onRemoveImage(i)} />
 
-            <FormInput id={'text'} name={'text'} label={'Text'} value={values.text} error={errors.text} onValueChange={onValueChange} onBlur={onBlur} />
+                                <img
+                                    style={{ maxWidth: '20vh', maxHeight: '20vh' }}
+                                    className={style.postImg}
+                                    src={`${CDN_ADDRESS}/${i}`}
+                                    alt={i}
+                                />
+                            </div>
+                        </li>)}
+                    </ul>
+                }
 
-            <FormInput type={'file'} id={'images'} name={'images'} label={'Images'} multiple={true} value={values.text} error={errors.images} onValueChange={onImage} />
+                <FormInput id={'text'} name={'text'} label={'Text'} value={values.text} error={errors.text} onValueChange={onValueChange} onBlur={onBlur} />
 
-            <label htmlFor="visibility">
-                <span>Visibility</span>
+                <FormInput type={'file'} id={'images'} name={'images'} label={'Images'} multiple={true} value={values.text} error={errors.images} onValueChange={onImage} />
 
-                <select id="visibility" name="visibility" value={values.visibility} onChange={onValueChange}>
-                    <option value={'owner'}>Only me</option>
-                    <option value={'friends'}>Friends</option>
-                    <option value={'all'}>Everyone</option>
-                </select>
-            </label>
-        </FormTemplate>
+                <label htmlFor="visibility">
+                    <span>Visibility</span>
+
+                    <select id="visibility" name="visibility" value={values.visibility} onChange={onValueChange}>
+                        <option value={'owner'}>Only me</option>
+                        <option value={'friends'}>Friends</option>
+                        <option value={'all'}>Everyone</option>
+                    </select>
+                </label>
+            </FormTemplate>
+
+        </>
     )
 }
 

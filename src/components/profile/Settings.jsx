@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux"
 import { changePassword, del } from "../../store/auth"
 import { getUserErrors, hasErrors, hasUserFieldError } from "../../util/validation"
 
-const Settings = ({ user }) => {
+const Settings = () => {
     const [value, setValue] = useState('')
 
     const [errors, setErrors] = useState(getUserErrors())

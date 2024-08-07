@@ -7,6 +7,7 @@ import FormTemplate from "../helpers/components/form/FormTemplate"
 import { getPostErrors, hasErrors, hasPostFieldError } from "../../util/validation"
 
 import style from './style.module.css'
+import Loading from "../helpers/components/preload/Loading"
 
 const CreatePost = () => {
     const [hasSubmitted, setHasSubmitted] = useState(false)
@@ -66,11 +67,7 @@ const CreatePost = () => {
 
     return (
         <>
-            {hasSubmitted && loading &&
-                <div className={style.postDetailsPreloadContainer} >
-                    <h2>Loading...</h2>
-                </div>
-            }
+            <Loading loading={hasSubmitted && loading} />
 
             <FormTemplate title={'Create Post'} btnTxt={'Post'} onSubmit={onSubmit}>
                 <FormInput id={'text'} name={'text'} label={'Text'} value={values.text} error={errors.text} onValueChange={onValueChange} onBlur={onBlur} />

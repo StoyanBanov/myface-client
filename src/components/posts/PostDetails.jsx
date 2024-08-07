@@ -11,15 +11,22 @@ import { useEffect } from "react"
 
 import style from './style.module.css'
 import PostComments from "./PostComments"
+import Loading from "../helpers/components/preload/Loading"
+import { useScroll } from "../helpers/customHooks/useScroll"
+import { getComments } from "../../store/post/comments"
 
 const PostDetails = () => {
     const navigate = useNavigate()
 
     const dispatch = useDispatch()
 
-    const { lastDeletedId } = useSelector(state => state.entities.posts)
+    const { lastDeletedId, loading } = useSelector(state => state.entities.posts)
 
     const post = useSingleItemFromStore(getPostsById, clearPosts, 'posts')
+
+    const { loading: loadingComments, hasReceivedAll } = useSelector(state => state.entities.comments)
+
+    useScroll(loadingComments, hasReceivedAll, () => getComments(post._id))
 
     useEffect(() => {
         if (lastDeletedId == post?._id)
@@ -39,36 +46,40 @@ const PostDetails = () => {
     }
 
     return (
-        <div className={style.postCardContainer} style={{ marginBottom: 20 }}>
-            {post &&
-                <>
-                    {data._id != post?.user?._id || data._id == post.user &&
-                        <PostHeader post={post} />
-                    }
+        <>
+            <Loading loading={loading} />
 
-                    <div>
-                        <PostContent post={post} />
-
-                        <p>Visibility: {post.visibility}</p>
-
-                        {data._id == post.user?._id || data._id == post.user
-                            ? <div className={style.postCardFooter}>
-                                <span>Likes: {post.likesCount}</span>
-
-                                <div>
-                                    <button onClick={onEditClick}>Edit</button>
-
-                                    <button onClick={onDeleteClick}>Delete</button>
-                                </div>
-                            </div>
-                            : <PostFooter post={post} />
+            <div className={style.postCardContainer} style={post ? { marginBottom: 20 } : { height: '50vh' }}>
+                {post &&
+                    <>
+                        {data._id != post?.user?._id || data._id == post.user &&
+                            <PostHeader post={post} />
                         }
-                    </div>
 
-                    <PostComments post={post} />
-                </>
-            }
-        </div>
+                        <div>
+                            <PostContent post={post} />
+
+                            <p>Visibility: {post.visibility}</p>
+
+                            {data._id == post.user?._id || data._id == post.user
+                                ? <div className={style.postCardFooter}>
+                                    <span>Likes: {post.likesCount}</span>
+
+                                    <div>
+                                        <button onClick={onEditClick}>Edit</button>
+
+                                        <button onClick={onDeleteClick}>Delete</button>
+                                    </div>
+                                </div>
+                                : <PostFooter post={post} />
+                            }
+                        </div>
+
+                        <PostComments post={post} />
+                    </>
+                }
+            </div>
+        </>
     )
 }
 

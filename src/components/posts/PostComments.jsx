@@ -7,6 +7,7 @@ import { getCommentErrors, hasCommentFieldError, hasErrors } from "../../util/va
 
 import style from './style.module.css'
 import PostCommentCard from "./PostCommentCard"
+import { useStatus } from "../helpers/customHooks/useStatus"
 
 const PostComments = ({ post }) => {
     const [hasSubmitted, setHasSubmitted] = useState(false)
@@ -27,6 +28,8 @@ const PostComments = ({ post }) => {
             dispatch(clearComments())
         }
     }, [dispatch, post])
+
+    const { isAuth } = useStatus()
 
     const { list, loading } = useSelector(state => state.entities.comments)
 
@@ -61,32 +64,30 @@ const PostComments = ({ post }) => {
             dispatch(addComment({ ...values, post: post._id }))
 
             setHasSubmitted(true)
+
+            setValues({
+                text: '',
+                images: []
+            })
         }
     }
 
     return (
         <div>
-            <div style={{ position: 'relative' }}>
-                <FormTemplate btnTxt={'Add'} title={'Comment'} onSubmit={onSubmit}>
+            {isAuth &&
+                <FormTemplate btnTxt={'Add'} title={'Comment'} onSubmit={onSubmit} preload={hasSubmitted && loading}>
                     <FormInput id={'text'} name={'text'} label={'Text'} value={values.text} error={errors.text} onValueChange={onValueChange} onBlur={onBlur} />
 
                     <FormInput type={'file'} id={'images'} name={'images'} label={'Images'} error={errors.images} onValueChange={onImage} multiple={true} />
                 </FormTemplate>
-
-                {hasSubmitted && loading &&
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'black', opacity: '50%' }}>
-                        <h3 style={{ color: 'white' }}>Loading...</h3>
-                    </div>
-                }
-            </div>
-
+            }
 
             <ul>
                 {list.map(c => <PostCommentCard key={c._id} post={post} comment={c} />)}
 
                 {loading && !hasSubmitted &&
                     new Array(5).fill(0).map((_, i) =>
-                        <li key={i} className={style.postCardContainer} style={{ height: '10vh' }}>
+                        <li key={i} className={style.postCommentContainer} style={{ height: '10vh' }}>
                         </li>
                     )
                 }
@@ -96,7 +97,7 @@ const PostComments = ({ post }) => {
                 list.length == 0 &&
                 <p>No comments yet</p>
             }
-        </div >
+        </div>
     )
 }
 

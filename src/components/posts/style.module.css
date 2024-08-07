@@ -3,7 +3,7 @@
 }
 
 .postCardBackground {
-    z-index: 0;
+    z-index: 4;
     position: fixed;
     top: 0;
     left: 0;
@@ -14,8 +14,22 @@
 }
 
 .postCardWrapper {
+    width: var(--container-width);
+    margin-bottom: 20px;
+}
+
+.postCardWrapperScroll {
     width: calc(var(--container-width) + 20px);
-    margin: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+
+    position: fixed;
+    top: 0;
+    max-height: 95vh;
+    z-index: 5;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scroll-margin: 10px;
 }
 
 .postCardContainer {
@@ -35,11 +49,18 @@
     margin: var(--container-margin);
 }
 
-.postCardHeader {
+.postCardHeader,
+.postCommentHeader {
     display: flex;
     align-items: center;
     margin: var(--container-margin);
     margin-bottom: 0;
+}
+
+.postCommentHeader {
+    font-size: small;
+    margin: 0;
+    margin-bottom: var(--container-margin);
 }
 
 .postCardHeaderRight {
@@ -100,43 +121,52 @@
     margin: var(--container-margin);
 }
 
-
-.postDetailsPreloadContainer {
-    position: fixed;
-    top: 30px;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-    background: gray;
-    opacity: 30%;
-}
-
 .postLikesCount {
     margin-left: var(--container-margin);
 }
+
+
 
 .postCommentContainer {
     padding: 10px;
     border-bottom: 1px solid black;
     border-radius: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.postCommentContainer ul,
+.postCommentContainer ul li {
+    display: flex;
 }
 
 .postCommentContainer p {
     margin: 0;
+    margin-bottom: var(--container-margin);
 }
 
 .commentImage {
-    width: calc(var(--container-width) / 4);
+    width: calc(var(--container-width) / 4.1);
     max-height: calc(var(--container-width) / 2);
 }
 
+.commentProfilePic {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
 @media screen and (max-width: 900px) {
-    .postCardContainer {
-        --container-width: 95vw;
-        margin: 0;
+    body {
+        --container-width: 93vw;
+    }
+
+    .postCardWrapper {
         margin-bottom: 10px;
+    }
+
+    .postCardWrapperScroll {
+        margin: 0;
+        max-height: 100vh;
     }
 }

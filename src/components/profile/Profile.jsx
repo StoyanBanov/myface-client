@@ -3,10 +3,10 @@ import { Outlet } from "react-router-dom"
 import ProfilePic from "../helpers/components/images/ProfilePic"
 
 import InnerNav from "../helpers/components/innerNav/InnerNav"
-import { useStatus } from "../helpers/customHooks/useStatus"
+import { useSelector } from "react-redux"
 
 const Profile = ({ user }) => {
-    const { data } = useStatus()
+    const { data, loading } = useSelector(state => state.auth)
 
     return (
         <>
@@ -25,7 +25,7 @@ const Profile = ({ user }) => {
                         ]} />
                     }
 
-                    <Outlet context={{ user }} />
+                    <Outlet context={{ user, loading }} />
                 </>
             }
         </>
