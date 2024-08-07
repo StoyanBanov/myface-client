@@ -3,9 +3,9 @@
 ## Technologies Used:
 
 ### Front-End Stack:
-- [![React](https://img.shields.io/badge/React-✓-blue)](https://reactjs.org/)
-- [![React Router DOM](https://img.shields.io/badge/React_Router_DOM-✓-brightgreen)](https://reactrouter.com/)
-- [![React Redux](https://img.shields.io/badge/React_Redux-✓-brightgreen)](https://react-redux.js.org/)
+- [![React](https://img.shields.io/badge/React-✓-brightgreen)](https://reactjs.org/)
+- [![React Router DOM](https://img.shields.io/badge/React_Router_DOM-✓-blueviolet)](https://reactrouter.com/)
+- [![React Redux](https://img.shields.io/badge/React_Redux-✓-blueviolet)](https://react-redux.js.org/)
 
 ### Back-End:
 - [![Myface Server](https://img.shields.io/badge/MyfaceServer-✓-blue)](https://github.com/StoyanBanov/myface-server)
@@ -27,12 +27,10 @@ Myface is a small social network. The web application is my(Stoyan Banov) entry 
 ## Features
 
 ### Guest:
-
 - **View Posts:**
   - View posts that don't have a visibility restriction
 
 ### Logged-In User:
-
 - **View Posts:**
   - View posts that don't have a visibility restriction
   - View the visible posts of their friends
@@ -41,10 +39,14 @@ Myface is a small social network. The web application is my(Stoyan Banov) entry 
 - **Post Management:**
   - CRUD
   - Posts include text and/or images
-
+ 
 - **Like Post:**
   - Add like to a post
   - Remove like from a post
+ 
+- **Comment Post:**
+  - Add comment to a post
+  - Remove comment from a post
     
 - **Search:**
   - Search users
@@ -61,11 +63,10 @@ Myface is a small social network. The web application is my(Stoyan Banov) entry 
   - Chats remain even after a friendship is removed
 
 ## Running the application
-
-  - Create a .env file with the following properties:
+  - In the root directory of the project create a .env file with the following properties:
     - VITE_HOST=(address to the [Myface Server](https://github.com/StoyanBanov/myface-server))
   - Install dependencies - npm i
-  - Run appliaction - npm run dev
+  - Run the appliaction - npm run dev
   - Run the [Myface Server](https://github.com/StoyanBanov/myface-server)
 
 ## Deployment Info
