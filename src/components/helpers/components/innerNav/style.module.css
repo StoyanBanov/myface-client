@@ -1,6 +1,7 @@
-.searchNav {
+.innerNav {
     background-color: white;
     display: flex;
     padding: 5px;
     box-shadow: 0px 0px 2px gray;
+    margin: 10px;
 }

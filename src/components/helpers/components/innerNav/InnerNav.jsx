@@ -6,7 +6,7 @@ const InnerNav = ({ links }) => {
 
     const ActiveClassNameHandler = ({ isActive }) => isActive ? commonStyle.activeLink : commonStyle.inactiveLink
     return (
-        <div className={style.searchNav}>
+        <div className={style.innerNav}>
             {links.map(l =>
                 <NavLink key={l.text} className={ActiveClassNameHandler} to={l.to}>{l.text}</NavLink>
             )}
