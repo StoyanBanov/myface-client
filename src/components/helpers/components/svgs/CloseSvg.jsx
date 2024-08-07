@@ -1,8 +1,8 @@
-const CloseSvg = ({ stroke = 'black' }) => {
+const CloseSvg = ({ stroke = 'black', width = 20, height = 20 }) => {
     return (
-        <svg height={20} width={20} stroke={stroke} style={{ background: 'white' }}>
-            <line x1={2} y1={2} x2={18} y2={18} />
-            <line x1={18} y1={2} x2={2} y2={18} />
+        <svg height={height} width={width} stroke={stroke}>
+            <line x1={2} y1={2} x2={width - 2} y2={height - 2} />
+            <line x1={width - 2} y1={2} x2={2} y2={height - 2} />
         </svg>
     )
 }
