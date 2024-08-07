@@ -9,6 +9,10 @@
     max-width: var(--container-width);
 }
 
+.mainFieldset {
+    position: relative;
+}
+
 .mainFieldset h2 {
     margin: 0;
 }
