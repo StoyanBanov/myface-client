@@ -60,7 +60,7 @@ const Register = () => {
                     <FormInput type={'radio'} name={'gender'} label={'Male'} value={'male'} onValueChange={onValueChange} onBlur={onBlur} />
                 </fieldset>
 
-                <FormInput type={'date'} id={'dob'} name={'dob'} label={'Date of Birth'} error={errors.dob} value={values.dob} onValueChange={onValueChange} onBlur={onBlur} />
+                <FormInput type={'date'} id={'dob'} name={'dob'} label={'Date of Birth'} error={errors.dob} value={values.dob} onValueChange={onValueChange} onBlur={onBlur} required={true} />
 
                 <FormInput type={'password'} id={'password'} name={'password'} label={'Password'} error={errors.password} value={values.password} onValueChange={onValueChange} onBlur={onBlur} required={true} />
 

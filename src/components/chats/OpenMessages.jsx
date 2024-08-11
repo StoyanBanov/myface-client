@@ -27,7 +27,7 @@ const OpenMessages = ({ chatId }) => {
                 ul.scrollTop = ul.scrollHeight
             }, 100)
         }
-    }, [loading, hasScrolledUp])
+    }, [loading, hasScrolledUp, messages])
 
     const { openCarousel, closeCarousel, isCarouselOpened } = useCarousel()
     const [carouselValues, setCarouselValues] = useState({ imgs: [], ind: 0 })

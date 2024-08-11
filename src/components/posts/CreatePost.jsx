@@ -70,7 +70,7 @@ const CreatePost = () => {
             <Loading loading={hasSubmitted && loading} />
 
             <FormTemplate title={'Create Post'} btnTxt={'Post'} onSubmit={onSubmit}>
-                <FormInput id={'text'} name={'text'} label={'Text'} value={values.text} error={errors.text} onValueChange={onValueChange} onBlur={onBlur} />
+                <FormInput type={'textarea'} id={'text'} name={'text'} label={'Text'} value={values.text} error={errors.text} onValueChange={onValueChange} onBlur={onBlur} />
 
                 <FormInput type={'file'} id={'images'} name={'images'} label={'Images'} multiple={true} value={values.text} error={errors.images} onValueChange={onImage} />
 

@@ -22,7 +22,8 @@
 }
 
 .mainForm input,
-.mainForm select {
+.mainForm select,
+.mainForm textarea {
     margin-left: 10px;
 }
 

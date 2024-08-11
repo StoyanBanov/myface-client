@@ -39,10 +39,10 @@ const Settings = () => {
     return (
         <>
             <FormTemplate title={'Change Password'} btnTxt={'Change'} onSubmit={onSubmit}>
-                <FormInput id={'password'} name={'password'} label={'New Password'} value={value} error={errors.password} onValueChange={onChange} onBlur={onBlur} />
+                <FormInput type={'password'} id={'password'} name={'password'} label={'New Password'} value={value} error={errors.password} onValueChange={onChange} onBlur={onBlur} />
             </FormTemplate>
 
-            <button onClick={onDelete}>Delete Account</button>
+            {/* <button onClick={onDelete}>Delete Account</button> */}
         </>
     )
 }
