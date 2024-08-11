@@ -58,7 +58,7 @@ const CreatePost = () => {
     const onSubmit = e => {
         e.preventDefault()
 
-        if (!hasErrors(errors) && (values.text || values.images)) {
+        if (!hasErrors(errors) && (values.text || values.images.length)) {
             dispatch(addPost(values))
 
             setHasSubmitted(true)

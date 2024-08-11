@@ -9,7 +9,7 @@ const ProfileInfo = () => {
 
             <p>gender: {user.gender || 'unknown'}</p>
 
-            <p>date of birth: {user.gender || 'unknown'}</p>
+            <p>date of birth: {user.dob || 'unknown'}</p>
 
             <p>email: {user.email}</p>
         </div>

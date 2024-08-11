@@ -75,7 +75,9 @@ const PostDetails = () => {
                             }
                         </div>
 
-                        <PostComments post={post} />
+                        {post &&
+                            <PostComments post={post} />
+                        }
                     </>
                 }
             </div>

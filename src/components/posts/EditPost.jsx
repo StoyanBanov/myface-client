@@ -52,7 +52,7 @@ const EditPost = () => {
     const onSubmit = e => {
         e.preventDefault()
 
-        if (!hasErrors(errors) && (values.text || values.images)) {
+        if (!hasErrors(errors) && (values.text || values.images.length)) {
             dispatch(editPostById(post._id, values))
 
             setHasSubmitted(true)
@@ -73,7 +73,7 @@ const EditPost = () => {
     }
 
     const onImage = ({ target: { files } }) => {
-        setValues(state => ({ ...state, removedImages: [...state.images], images: [...files], }))
+        setValues(state => ({ ...state, removedImages: [...post.images], images: [...files], }))
 
         setErrors(state => ({
             ...state, images: {

@@ -6,18 +6,11 @@ import PostComments from './PostComments'
 
 import style from './style.module.css'
 import CloseBtn from '../helpers/components/buttons/CloseBtn'
-import { useScroll } from '../helpers/customHooks/useScroll'
-import { getComments } from '../../store/post/comments'
-import { useSelector } from 'react-redux'
 
 const PostCard = ({ post }) => {
     const [showComments, setShowComments] = useState(false)
 
     const postRef = useRef()
-
-    const { loading, hasReceivedAll } = useSelector(state => state.entities.comments)
-
-    useScroll(loading, hasReceivedAll, () => getComments(post._id), postRef.current)
 
     const openComments = () => {
         setShowComments(true)
@@ -50,7 +43,7 @@ const PostCard = ({ post }) => {
                     <PostFooter post={post} openComments={openComments} closeComments={closeComments} showComments={showComments} />
 
                     {showComments &&
-                        <PostComments post={post} />
+                        <PostComments post={post} scrollable={postRef.current} />
                     }
                 </div>
             </div>

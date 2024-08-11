@@ -8,8 +8,9 @@ import { getCommentErrors, hasCommentFieldError, hasErrors } from "../../util/va
 import style from './style.module.css'
 import PostCommentCard from "./PostCommentCard"
 import { useStatus } from "../helpers/customHooks/useStatus"
+import { useScroll } from "../helpers/customHooks/useScroll"
 
-const PostComments = ({ post }) => {
+const PostComments = ({ post, scrollable }) => {
     const [hasSubmitted, setHasSubmitted] = useState(false)
 
     const [values, setValues] = useState({
@@ -31,7 +32,9 @@ const PostComments = ({ post }) => {
 
     const { isAuth } = useStatus()
 
-    const { list, loading } = useSelector(state => state.entities.comments)
+    const { list, loading, hasReceivedAll } = useSelector(state => state.entities.comments)
+
+    useScroll(loading, hasReceivedAll, () => getComments(post._id), scrollable)
 
     const onValueChange = ({ target: { name, value } }) => {
         setValues(state => ({ ...state, [name]: value }))
