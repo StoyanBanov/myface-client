@@ -1,11 +1,10 @@
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { getChats, clearAvailableChats } from "../../store/chat/chats"
 import { useCallback, useEffect, useRef, useState } from "react"
-import AvailableChatCard from "./AvailableChatCard"
-import { useScroll } from "../helpers/customHooks/useScroll"
 
 import commonStyle from '../helpers/commonStyle.style.module.css'
 import style from './style.module.css'
+import AvailableChatsList from "./AvailableChatsList"
 
 const AvailableChats = () => {
     const [isChatsRendered, setIsChatsRendered] = useState(false)
@@ -14,7 +13,6 @@ const AvailableChats = () => {
 
     const chatsContainer = useRef()
     const chatsToggleAnchor = useRef()
-    const chatsUl = useRef()
 
     const closeChats = useCallback(() => {
         dispatch(clearAvailableChats())
@@ -34,10 +32,6 @@ const AvailableChats = () => {
             window.document.removeEventListener('click', onCloseChats)
         }
     }, [onCloseChats, isChatsRendered])
-
-    const { list, loading } = useSelector(state => state.entities.chats.available)
-
-    useScroll(loading, false, getChats, chatsUl.current)
 
     const onRenderChatsClick = e => {
         e.preventDefault()
@@ -63,21 +57,7 @@ const AvailableChats = () => {
 
             <div ref={chatsContainer} className={style.availableChatsContainer}>
                 {isChatsRendered &&
-                    <ul ref={chatsUl}>
-                        {list.map(c =>
-                            <li key={c._id}>
-                                <AvailableChatCard chat={c} closeChats={closeChats} />
-                            </li>
-                        )}
-
-                        {loading &&
-                            <li>
-                                <span>Loading...</span>
-                            </li>
-                        }
-
-                        {list.length == 0 && <li>No chats</li>}
-                    </ul>
+                    <AvailableChatsList closeChats={closeChats} />
                 }
             </div>
 

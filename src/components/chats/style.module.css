@@ -23,7 +23,7 @@
 .openChatsUl {
     position: fixed;
     bottom: 0;
-    width: 100%;
+    right: 0;
     display: flex;
     flex-direction: row;
     justify-content: right;

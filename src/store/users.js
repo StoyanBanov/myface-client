@@ -146,7 +146,7 @@ export const getFriends = (search) =>
 export const getFriendshipRequests = (search) =>
     (dispatch, getState) =>
         dispatch(apiCallBegan({
-            url: `${urlFriendships}?where=${encodeURIComponent(`"isAccepted=false"&"accepted=${getState().entities.users.current._id}"`)}${search ? `&search=${search}` : ''}`,
+            url: `${urlFriendships}?where=${encodeURIComponent(`"isAccepted=false"&"accepted=${getState().auth.data._id}"`)}${search ? `&search=${search}` : ''}`,
             onStart: requested.type,
             onSuccess: received.type,
             onError: requestFailed.type
